@@ -4,6 +4,7 @@ Server::Server(const std::string &t_port, const std::string &t_password)
 {
     setPort(t_port);
     setPassword(t_password);
+    setSocket();
 }
 
 Server::~Server()

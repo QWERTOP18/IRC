@@ -61,3 +61,25 @@ void Server::setPassword(const std::string &t_password)
 
     m_password = t_password;
 }
+
+void Server::setSocket()
+{
+    if ((m_sokcet = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+        throw std::runtime_error(Err::Socket::OPEN_FAIL);
+
+    int optval = 1;
+    if (setsockopt(m_sokcet, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(m_sokcet)) < 0)
+        throw std::runtime_error(Err::Socket::SETOPT_FAIL);
+
+    if (fcntl(m_sokcet, F_SETFL, O_NONBLOCK) < 0)
+        throw std::runtime_error(Err::Socket::NONBLOCK_FAIL);
+
+    struct sockaddr_in server_addr = {};
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(m_port);
+    if (bind(m_sokcet, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+        throw std::runtime_error(Err::Socket::BIND_FAIL);
+    if (listen(m_sokcet, m_connect_max) < 0)
+        throw std::runtime_error(Err::Socket::LISTEN_FAIL);
+}
