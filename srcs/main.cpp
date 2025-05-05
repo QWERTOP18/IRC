@@ -1,13 +1,17 @@
-#include "Server.hpp"
+#include "server/Server.hpp"
 
 int main(int argc, char **argv)
 {
-    if (argc != 3)
+    try
     {
-        std::cerr << "Usage: ./ircserv <port> <password>\n";
+        if (argc != 3)
+            throw std::invalid_argument("Usage: ./IRC <port> <password>");
+        Server server(argv[1], argv[2]);
+        server.start();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
         return EXIT_FAILURE;
     }
-
-    Server serv(argv[1], argv[2]);
-    server.start();
 }
