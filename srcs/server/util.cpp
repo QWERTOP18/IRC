@@ -64,7 +64,8 @@ void Server::setPassword(const std::string &t_password)
 
 void Server::setSocket()
 {
-    if ((m_sokcet = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    if ((m_sokcet = socket(AF_INET, SOCK_STREAM, 0))
+     < 0)
         throw std::runtime_error(Err::Socket::OPEN_FAIL);
 
     int optval = 1;
@@ -80,6 +81,6 @@ void Server::setSocket()
     server_addr.sin_port = htons(m_port);
     if (bind(m_sokcet, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
         throw std::runtime_error(Err::Socket::BIND_FAIL);
-    if (listen(m_sokcet, m_connect_max) < 0)
+    if (listen(m_sokcet, MAX_CONNECT) < 0)
         throw std::runtime_error(Err::Socket::LISTEN_FAIL);
 }
