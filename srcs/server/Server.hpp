@@ -6,7 +6,7 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:19:25 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/06 09:57:09 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:05:39 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include <sys/socket.h>
 #include <fcntl.h>
 #include <netinet/in.h>
-#include <poll.h>
+#include "ClientList.hpp"
+#include "ChannelList.hpp"
 
 class Server
 {
@@ -25,6 +26,8 @@ private:
     std::string m_password;
     int m_port;
     int m_sokcet;
+    ClientList m_CLIENTS;
+    ChannelList m_CHANNELS;
 
     void setPort(const std::string &t_port);
     void setPassword(const std::string &t_password);
@@ -35,6 +38,7 @@ public:
     ~Server();
 
     void start();
+    void run();
 };
 
 namespace Err
