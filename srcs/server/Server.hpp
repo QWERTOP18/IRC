@@ -6,7 +6,7 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:19:25 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/06 12:05:39 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/07 07:06:58 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include <sys/socket.h>
 #include <fcntl.h>
 #include <netinet/in.h>
-#include "ClientList.hpp"
-#include "ChannelList.hpp"
+#include "../client/ClientList.hpp"
+#include "../channel/ChannelList.hpp"
 
 class Server
 {
