@@ -1,5 +1,5 @@
 CXX = c++
-CXXFLAGS = -std=c++98 -Wall -Wextra -Werror -Isrcs --pedantic
+CXXFLAGS = -std=c++98 -Wall -Wextra -Werror -Iincs --pedantic
 
 NAME = IRC
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "macro.hpp"
+#include "Macro.hpp"
 
 class Parser
 {

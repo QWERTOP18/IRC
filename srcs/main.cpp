@@ -6,11 +6,11 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:19:08 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/06 09:19:09 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/07 06:46:43 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server/Server.hpp"
+#include "Server.hpp"
 
 int main(int argc, char **argv)
 {

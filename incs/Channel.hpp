@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClientList.hpp                                     :+:      :+:    :+:   */
+/*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 11:40:33 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/06 12:23:31 by ymizukam         ###   ########.fr       */
+/*   Created: 2025/05/06 11:41:12 by ymizukam          #+#    #+#             */
+/*   Updated: 2025/05/07 06:46:05 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#include "macro.hpp"
-#include <vector>
-#include <map>
+#include "Macro.hpp"
 
-#include "Client.hpp"
-
-class ClientList
+class Channel
 {
 private:
-    std::map<int, Client *> m_clients;
+    std::string m_name;
+    // std::string m_topic;
+    std::string m_password;
+    int m_limit;
+    bool m_private;
 
 public:
-    ClientList();
-    ~ClientList();
-
-    void append(int fd);
-    void remove(int fd);
-    void handleEvent(const int fd);
-    std::vector<pollfd> getPollFds() const;
-    // void setClient(int fd, const std::string &nickname,
-    //                const std::string &username, const std::string &realname);
+    Channel(const std::string &t_name,
+            const std::string &t_password = "",
+            int t_limit = 0,
+            bool t_private = false);
+    ~Channel();
 };
