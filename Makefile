@@ -1,5 +1,5 @@
 CXX = c++
-CXXFLAGS = -std=c++98 -Wall -Wextra -Werror -Isrcs
+CXXFLAGS = -std=c++98 -Wall -Wextra -Werror -Isrcs --pedantic
 
 NAME = IRC
 
@@ -25,6 +25,10 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+
+debug: CXXFLAGS += -g -DDEBUG
+debug: re
+
 
 re: fclean all
 

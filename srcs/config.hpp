@@ -6,7 +6,7 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 06:12:34 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/06 07:19:20 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:33:18 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <ctime>
 #include <sstream>
 
 /* ************************************************************************** */
@@ -46,3 +47,21 @@
 #else
 #define DEBUG_LOG(msg) ((void)0)
 #endif
+
+/* ************************************************************************** */
+// LOG
+/* ************************************************************************** */
+static inline void LOG(const std::string &message)
+{
+    char buf[20];
+    std::time_t t = std::time(0);
+    std::strftime(buf, sizeof(buf), "%H:%M:%S>  ", std::localtime(&t));
+    std::cout << MAGENTA << buf << RESET << message << std::endl;
+}
+
+static inline std::string to_string(int value)
+{
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
+}

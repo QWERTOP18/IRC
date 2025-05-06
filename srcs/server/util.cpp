@@ -64,7 +64,8 @@ void Server::setPassword(const std::string &t_password)
 
 void Server::setSocket()
 {
-    if ((m_sokcet = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    if ((m_sokcet = socket(AF_INET, SOCK_STREAM, 0))
+     < 0)
         throw std::runtime_error(Err::Socket::OPEN_FAIL);
 
     int optval = 1;
