@@ -1,0 +1,36 @@
+name: Build and Test with GoogleTest
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. リポジトリのコードをクローン
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 2. CMakeのセットアップ
+      - name: Set up CMake
+        uses: actions/setup-cmake@v2
+
+      # 3. ビルドディレクトリを作成
+      - name: Create build directory
+        run: mkdir build
+
+      # 4. CMakeを使ってビルドを実行
+      - name: Build with CMake
+        run: |
+          cd build
+          cmake ..
+          cmake --build .
+
+      # 5. テストを実行
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure
