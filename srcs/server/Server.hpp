@@ -6,12 +6,12 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:19:25 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/06 09:19:26 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:57:09 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#include "config.hpp"
+#include "macro.hpp"
 #include <iostream>
 #include <string>
 #include <sys/socket.h>
@@ -25,7 +25,6 @@ private:
     std::string m_password;
     int m_port;
     int m_sokcet;
-    int m_connect_max;
 
     void setPort(const std::string &t_port);
     void setPassword(const std::string &t_password);

@@ -81,6 +81,6 @@ void Server::setSocket()
     server_addr.sin_port = htons(m_port);
     if (bind(m_sokcet, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
         throw std::runtime_error(Err::Socket::BIND_FAIL);
-    if (listen(m_sokcet, m_connect_max) < 0)
+    if (listen(m_sokcet, MAX_CONNECT) < 0)
         throw std::runtime_error(Err::Socket::LISTEN_FAIL);
 }
