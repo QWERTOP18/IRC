@@ -26,7 +26,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-debug: CXXFLAGS += -g -DDEBUG
+debug: CXXFLAGS = -std=c++98 -Wall -Wextra -g -Isrcs -DDEBUG
 debug: re
 
 
