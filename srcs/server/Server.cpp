@@ -12,15 +12,7 @@
 
 #include "Server.hpp"
 
-Server::Server(const std::string &t_port, const std::string &t_password)
-{
-    setPort(t_port);
-    setPassword(t_password);
-    setSocket();
-    m_pollfd.fd = m_sokcet;
-    m_pollfd.events = POLLIN;
-    m_pollfd.revents = 0;
-}
+
 Server::Server(const std::string &t_port, const std::string &t_password, Model *model, Controller *controller)
     : m_Model(model), m_Controller(controller)
 {
@@ -30,6 +22,11 @@ Server::Server(const std::string &t_port, const std::string &t_password, Model *
     m_pollfd.fd = m_sokcet;
     m_pollfd.events = POLLIN;
     m_pollfd.revents = 0;
+}
+Server::Server()
+    : m_Model(NULL), m_Controller(NULL)
+{
+    DEBUG_LOG(__func__);
 }
 
 Server::~Server()
