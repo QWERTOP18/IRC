@@ -53,4 +53,16 @@ debug: re
 
 re: fclean all
 
-.PHONY: all clean fclean re test
+# 特定のテストファイルを実行
+test-model:
+	./test_irc --gtest_filter=ModelTest.*
+
+# 特定のテストケースを実行
+test-model-client:
+	./test_irc --gtest_filter=ModelClientTests.*
+
+# 特定のテストを実行
+test-model-add:
+	./test_irc --gtest_filter=ModelTest.AddClient_Success
+
+.PHONY: all clean fclean re test test-model test-model-client test-model-add

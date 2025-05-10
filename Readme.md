@@ -19,6 +19,19 @@ brew install irssi nc
 nc localhost <port>
 ```
 
+## test
+
+```sh
+# 特定のテストファイルを実行
+./test_irc "--gtest_filter=ModelTest.*"
+
+# 特定のテストケースを実行
+./test_irc "--gtest_filter=ModelClientTests.*"
+
+# 特定のテストを実行
+./test_irc "--gtest_filter=ModelTest.AddClient_Success"
+```
+
 ## coding の際に気をつけてること
 
 ### 命名規則
@@ -28,6 +41,7 @@ m*snake_case member of Class
 m_UPPER container member
 t* argument
 k\_ constant value
+
 ```
 
 [detail](https://www.notion.so/coding-1e4d2242f53b80b98125cdce66dd2b6f)
@@ -47,3 +61,7 @@ Error Message は名前空間で区切ってすべてヘッダーに書く
 流れを補足すると
 Server がポーリングしていて（ClientList を継承した Poll クラスの責務）、Client からのインプットがあったら Parser にわたし、改行があれば Command のポインタが返ってくるので、Serverが発火。
 Commandは、種類によってClient, Channelクラスのメソッドを使用する。例えばKickだったらChannelクラスのKickメソッド->ChannelのClientListからClientを削除
+
+```
+
+```
