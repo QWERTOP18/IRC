@@ -17,6 +17,7 @@ Server::Server(const std::string &t_port, const std::string &t_password, Model *
 {
     setPort(t_port);
     setPassword(t_password);
+    m_Model->setPassword(m_password);
     setSocket();
     m_pollfd.fd = m_sokcet;
     m_pollfd.events = POLLIN;

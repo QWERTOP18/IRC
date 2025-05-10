@@ -5,7 +5,7 @@ Controller::Controller(Model *model) : m_Model(model)
     m_Command["PASS"] = new Pass();
     // m_Command["NICK"] = new Nick();
     // m_Command["USER"] = new User();
-    // m_Command["JOIN"] = new Join();
+    m_Command["JOIN"] = new Join();
     // m_Command["PART"] = new Part();
     // m_Command["PRIVMSG"] = new PrivMsg();
     // m_Command["QUIT"] = new Quit();

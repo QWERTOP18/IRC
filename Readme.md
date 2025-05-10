@@ -34,6 +34,22 @@ nc localhost <port>
 
 ## coding の際に気をつけてること
 
+### 副作用
+
+#### IOもテストがしたい
+
+LOGはTestしなくてもいい出力の時に使う。DEBUG_LOGはmake debugで実行した時のみ出力される。
+Clientに送るレスポンスは最低限statusだけでもテストがしたい。
+
+> :kotaro!user@localhost JOIN :#test
+> :localhost 332 kotaro #test :チャンネルのトピック
+> :localhost 353 kotaro = #test :kotaro
+> :localhost 366 kotaro #test :End of /NAMES list.
+
+#### buffering
+
+IOをテストするためにもbufferingをしているが、パーサーなどがbufferにアクセスする際にどうしても変更を加えてしまう
+
 ### 命名規則
 
 ```
