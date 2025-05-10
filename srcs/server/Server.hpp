@@ -24,7 +24,7 @@
 
 class Server
 {
-private:
+protected:
     std::string m_password;
     int m_port;
     int m_sokcet;
@@ -34,16 +34,18 @@ private:
     Controller *m_Controller;
 
 public:
-    Server(const std::string &t_port, const std::string &t_password);
-    Server(const std::string &t_port, const std::string &t_password, Model *model,Controller *controller);
-    
+    Server(const std::string &t_port,
+           const std::string &t_password,
+           Model *model, Controller *controller);
+    Server();
+
     ~Server();
 
     void start();
     void poll();
     // std::string const &readRequest(int fd, std::string &buffer);
 
-private:
+protected:
     void setPort(const std::string &t_port);
     void setPassword(const std::string &t_password);
     void setSocket();

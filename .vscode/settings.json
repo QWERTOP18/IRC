@@ -52,7 +52,7 @@
     "map": "cpp",
     "__bit_reference": "cpp",
     "__config": "cpp",
-    "__hash_table": "cpp",
+    "__id_hash_table": "cpp",
     "__locale": "cpp",
     "__node_handle": "cpp",
     "__split_buffer": "cpp",
@@ -67,6 +67,7 @@
     "locale": "cpp",
     "mutex": "cpp",
     "ratio": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "__hash_table": "cpp"
   }
 }

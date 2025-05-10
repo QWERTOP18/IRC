@@ -17,8 +17,10 @@
 class Client
 {
 private:
-    int m_fd;
-    std::string m_buffer;
+    ID m_fd; // fd
+    std::string m_buf_read;
+    std::string m_buf_write;
+
     std::string m_hostname;
     std::string m_nickname;
     std::string m_username;

@@ -19,31 +19,21 @@ private:
 public:
     Model();
     ~Model();
+
+    // Getters
     std::vector<pollfd> getPollfds() const;
-    const Client *getClient(int fd) const
-    {
-        std::map<ID, Client *>::const_iterator it = m_Client.find(fd);
-        if (it != m_Client.end())
-            return it->second;
-        return NULL;
-    }
+    const Client *getClient(int t_fd) const;
+    const Channel *getChannel(int t_id) const;
+    int getChannelSize(const std::string &t_name) const;
+    int getClientSize() const { return m_Client.size(); }
+    int getChannelSize() const { return m_Channel.size(); }
 
-    void addClient(int fd)
-    {
-        m_Client[fd] = new Client(fd);
-    }
-    void addChannel(int fd)
-    {
-        m_Channel[fd] = new Channel();
-    }
-    void addHub(int fd)
-    {
-        m_Hub[fd] = new ClientChannelHub();
-    }
+    // Add operations
+    void addClient(int t_fd);
+    void addChannel(const std::string &t_name);
+    void addHub(int t_client_id, int t_channel_id, Role t_role);
 
-    void removeClient(int fd)
-    {
-        delete m_Client[fd];
-        m_Client.erase(fd);
-    }
+    // Remove operations
+    void removeClient(int t_fd);
+    void removeChannel(int t_id);
 };
