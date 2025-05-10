@@ -12,6 +12,7 @@
 
 #pragma once
 #include "macro.hpp"
+#include "../Command/ACommand.hpp"
 
 class Client
 {

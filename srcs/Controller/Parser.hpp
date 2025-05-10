@@ -1,5 +1,6 @@
 #pragma once
 #include "macro.hpp"
+#include "../Command/ACommand.hpp"
 
 class Parser
 {
@@ -8,4 +9,6 @@ private:
 public:
     Parser(/* args */);
     ~Parser();
+
+    ACommand *run(const std::string &buffer);
 };

@@ -3,11 +3,11 @@
 #include "Client.hpp"
 #include "Channel.hpp"
 #include "ClientChannelHub.hpp"
+#include "../Command/ACommand.hpp"
 
 #include <poll.h>
 #include <map>
 #include <vector>
-using std::vector;
 
 class Model
 {
@@ -20,6 +20,13 @@ public:
     Model();
     ~Model();
     std::vector<pollfd> getPollfds() const;
+    const Client *getClient(int fd) const
+    {
+        std::map<ID, Client *>::const_iterator it = m_Client.find(fd);
+        if (it != m_Client.end())
+            return it->second;
+        return NULL;
+    }
 
     void addClient(int fd)
     {
@@ -33,12 +40,21 @@ public:
     {
         m_Hub[fd] = new ClientChannelHub();
     }
-    void handleCommand(int fd)
+    void manageClientRequest(int fd)
     {
-        // Handle command from client
-        // This is a placeholder for the actual command handling logic
-        std::cout << "Handling command from client with fd: " << fd << std::endl;
+
+        ACommand *command = getClient(fd)->parseRequest();
+        if (command)
+        {
+            command->execute();
+            delete command;
+        }
+        else
+        {
+            LOG("Invalid command");
+        }
     }
+
     void removeClient(int fd)
     {
         delete m_Client[fd];
