@@ -29,15 +29,12 @@ $(TEST_OBJ_DIR)/%.o: test/%.cpp $(INCLUDE) | $(TEST_OBJ_DIR)
 	@mkdir -p $(dir $@)
 	$(CXX) $(TEST_CXXFLAGS) -c $< -o $@
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+$(OBJ_DIR) $(TEST_OBJ_DIR):
+	mkdir -p $@
 
-$(TEST_OBJ_DIR):
-	mkdir -p $(TEST_OBJ_DIR)
-
+# 通常テスト実行
 test: $(TEST_NAME)
 	@./$(TEST_NAME)
-	
 
 $(TEST_NAME): $(OBJ_NO_MAIN) $(TEST_OBJ)
 	$(CXX) $(TEST_CXXFLAGS) -o $@ $^ $(TEST_LDFLAGS)
@@ -53,16 +50,27 @@ debug: re
 
 re: fclean all
 
-# 特定のテストファイルを実行
+# ----------------------------
+# テストの個別ターゲット
+# ----------------------------
+test-command:
+	./$(TEST_NAME) --gtest_filter=CommandTestBase.*
+
+test-kick:
+	./$(TEST_NAME) --gtest_filter=KickTest.*
+
+test-part:
+	./$(TEST_NAME) --gtest_filter=PartTest.*
+
 test-model:
-	./test_irc --gtest_filter=ModelTest.*
+	./$(TEST_NAME) --gtest_filter=ModelTest.*
 
-# 特定のテストケースを実行
 test-model-client:
-	./test_irc --gtest_filter=ModelClientTests.*
+	./$(TEST_NAME) --gtest_filter=ModelClientTests.*
 
-# 特定のテストを実行
 test-model-add:
-	./test_irc --gtest_filter=ModelTest.AddClient_Success
+	./$(TEST_NAME) --gtest_filter=ModelTest.AddClient_Success
 
-.PHONY: all clean fclean re test test-model test-model-client test-model-add
+.PHONY: all clean fclean re test debug \
+        test-command test-kick test-part \
+        test-model test-model-client test-model-add
