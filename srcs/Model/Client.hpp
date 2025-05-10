@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ChannelList.hpp                                    :+:      :+:    :+:   */
+/*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 11:40:37 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/06 11:47:43 by ymizukam         ###   ########.fr       */
+/*   Created: 2025/05/06 11:40:30 by ymizukam          #+#    #+#             */
+/*   Updated: 2025/05/07 07:51:10 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include "macro.hpp"
 
-#include "Channel.hpp"
-#include <map>
-
-class ChannelList
+class Client
 {
 private:
-    std::map<std::string, Channel *> m_channels;
+    int m_fd;
+    std::string m_buffer;
+    std::string m_hostname;
+    std::string m_nickname;
+    std::string m_username;
+    std::string m_realname;
 
 public:
-    ChannelList();
-    ~ChannelList();
-    void append(const std::string &t_name,
-                const std::string &t_password = "",
-                int t_limit = 0,
-                bool t_private = false);
-    void remove(const std::string &t_name);
+    Client(int fd);
+    ~Client();
+    int getFd() const { return m_fd; }
 };
