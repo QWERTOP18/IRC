@@ -40,7 +40,7 @@ std::vector<pollfd> Model::getPollfds() const
     return pollfds;
 }
 
-const Client *Model::getClient(int t_fd) const
+Client *Model::getClient(int t_fd) const
 {
     std::map<ID, Client *>::const_iterator it = m_Client.find(t_fd);
     if (it != m_Client.end())
@@ -48,7 +48,7 @@ const Client *Model::getClient(int t_fd) const
     return NULL;
 }
 
-const Channel *Model::getChannel(int t_id) const
+Channel *Model::getChannel(int t_id) const
 {
     std::map<ID, Channel *>::const_iterator it = m_Channel.find(t_id);
     if (it != m_Channel.end())
@@ -69,6 +69,18 @@ int Model::getChannelSize(const std::string &t_name) const
     return size;
 }
 
+bool Model::isClientOnChannel(int t_client_id, int t_channel_id) const
+{
+    DEBUG_LOG(__func__);
+    for (std::map<ID, ClientChannelHub *>::const_iterator it = m_Hub.begin(); it != m_Hub.end(); ++it)
+    {
+        if (it->second->getClientId() == t_client_id && it->second->getChannelId() == t_channel_id)
+            return true;
+    }
+    return false;
+}
+
+///
 void Model::addClient(int t_fd)
 {
     m_Client[t_fd] = new Client(t_fd);

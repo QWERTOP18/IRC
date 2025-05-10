@@ -10,6 +10,7 @@ protected:
 
 public:
     ACommand();
+    void setModel(Model *t_model);
     virtual ~ACommand();
     virtual ResponseBody run(RequestBody t_request) = 0;
 };

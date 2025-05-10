@@ -10,18 +10,25 @@ Pass::~Pass()
     DEBUG_LOG(__func__);
 }
 
+// ERR_NEEDMOREPARAMS              ERR_ALREADYREGISTRED
 ResponseBody Pass::run(RequestBody t_request)
 {
     DEBUG_LOG(__func__);
     ResponseBody response;
-    if (t_request.m_content == m_Model->getPassword())
+    if (t_request.m_content != m_Model->getPassword())
     {
-        response.m_status = 200;
+        response.m_status = ERR_PASSWDMISMATCH;
+        return response;
     }
-    else
+    if (m_Model->getClient(t_request.m_fd)->getStatus() > AUTHENTICATED)
     {
-        response.m_status = 401;
-        response.m_content = "Invalid password";
+        response.m_status = 462;
+        response.m_content = "You are already registered.";
+        return response;
     }
+
+    m_Model->getClient(t_request.m_fd)->setStatus(AUTHENTICATED);
+    response.m_status = 1;
+
     return response;
 }

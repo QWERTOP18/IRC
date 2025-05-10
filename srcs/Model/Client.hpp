@@ -18,6 +18,7 @@ class Client
 {
 private:
     ID m_fd; // fd
+    State m_status;
     std::string m_buf_read;
 
     std::string m_hostname;
@@ -29,4 +30,7 @@ public:
     Client(int fd);
     ~Client();
     int getFd() const { return m_fd; }
+    State getStatus() const { return m_status; }
+    void setFd(int fd) { m_fd = fd; }
+    void setStatus(State status) { m_status = status; }
 };

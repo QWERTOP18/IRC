@@ -23,12 +23,13 @@ public:
 
     // Getters
     std::vector<pollfd> getPollfds() const;
-    const Client *getClient(int t_fd) const;
-    const Channel *getChannel(int t_id) const;
+    Client *getClient(int t_fd) const;
+    Channel *getChannel(int t_id) const;
     int getChannelSize(const std::string &t_name) const;
     int getClientSize() const { return m_Client.size(); }
     int getChannelSize() const { return m_Channel.size(); }
     const std::string &getPassword() const { return m_password; }
+    bool isClientOnChannel(int t_client_id, int t_channel_id) const;
 
     // Setters
     void setPassword(const std::string &t_password) { m_password = t_password; }

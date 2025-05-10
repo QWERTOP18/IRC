@@ -23,6 +23,7 @@
 #include "./DTO/Error.hpp"
 #include "./DTO/RequestBody.hpp"
 #include "./DTO/ResponseBody.hpp"
+#include "./DTO/ReplyCode.hpp"
 
 #define MAX_CONNECT 256
 typedef int ID;
@@ -100,4 +101,15 @@ enum Role
     MEMBER,
     INVITED,
     BANNED
+};
+
+enum State
+{
+    DISCONNECTED,
+    CONNECTED,
+    AUTHENTICATED,
+    AUTHENTICATING,
+    REGISTERED,
+    AUTHENTICATED_NICK,
+    AUTHENTICATED_USER
 };
