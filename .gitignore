@@ -4,3 +4,4 @@ IRC
 *.out
 *.pdf
 obj
+test_irc
