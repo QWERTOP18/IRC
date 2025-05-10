@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 11:40:30 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/07 07:51:10 by ymizukam         ###   ########.fr       */
+/*   Created: 2025/05/06 11:41:12 by ymizukam          #+#    #+#             */
+/*   Updated: 2025/05/07 07:53:23 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include "macro.hpp"
 
-class Client
+class Channel
 {
 private:
-    int m_fd;
-    std::string m_buffer;
-    std::string _hostname;
-
-    std::string _nickname;
-    std::string _username;
-    std::string _realname;
+    std::string m_name;
+    std::string m_topic;
+    std::string m_password;
+    int m_limit;
+    bool m_key;
 
 public:
-    Client(int fd);
-    ~Client();
+    Channel();
+    ~Channel();
 };

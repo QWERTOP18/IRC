@@ -17,6 +17,9 @@
 #include <sys/socket.h>
 #include <fcntl.h>
 #include <netinet/in.h>
+#include <poll.h>
+
+#include "../Model/Model.hpp"
 
 class Server
 {
@@ -24,19 +27,21 @@ private:
     std::string m_password;
     int m_port;
     int m_sokcet;
-    // ClientList m_CLIENTS;
-    // ChannelList m_CHANNELS;
+    pollfd m_pollfd;
 
-    void setPort(const std::string &t_port);
-    void setPassword(const std::string &t_password);
-    void setSocket();
+    Model m_Model;
 
 public:
     Server(const std::string &t_port, const std::string &t_password);
     ~Server();
 
     void start();
-    void run();
+    void poll();
+
+private:
+    void setPort(const std::string &t_port);
+    void setPassword(const std::string &t_password);
+    void setSocket();
 };
 
 namespace Err

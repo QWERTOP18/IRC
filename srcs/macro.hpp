@@ -16,7 +16,10 @@
 #include <string>
 #include <ctime>
 #include <sstream>
+#include <unistd.h>
+
 #define MAX_CONNECT 256
+typedef int ID;
 
 /* ************************************************************************** */
 // C++ バージョン対応
