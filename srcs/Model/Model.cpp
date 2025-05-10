@@ -119,3 +119,19 @@ void Model::removeChannel(int t_id)
             ++it;
     }
 }
+
+void Model::removeHub(int t_client_id, int t_channel_id)
+{
+
+    // 🚀hash2で高速に削除する
+    for (std::map<ID, ClientChannelHub *>::iterator it = m_Hub.begin(); it != m_Hub.end();)
+    {
+        if (it->second->getClientId() == t_client_id && it->second->getChannelId() == t_channel_id)
+        {
+            delete it->second;
+            it = m_Hub.erase(it);
+        }
+        else
+            ++it;
+    }
+}

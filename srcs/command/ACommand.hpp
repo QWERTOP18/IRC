@@ -1,11 +1,15 @@
 #pragma once
 #include "macro.hpp"
 
+class Model; // Forward declaration
+
 class ACommand
 {
-private:
+protected:
+    Model *m_Model;
+
 public:
     ACommand();
     virtual ~ACommand();
-    virtual void execute() = 0;
+    virtual ResponseBody run(RequestBody t_request) = 0;
 };
