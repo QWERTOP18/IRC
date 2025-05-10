@@ -16,13 +16,22 @@
 class Channel
 {
 private:
+    ID m_id;
     std::string m_name;
     std::string m_topic;
-    std::string m_password;
+    std::string m_key;
     int m_limit;
-    bool m_key;
 
 public:
-    Channel();
+    Channel(const std::string &name);
     ~Channel();
+    ID getId() const { return m_id; }
+    const std::string &getName() const { return m_name; }
+    const std::string &getTopic() const { return m_topic; }
+
+    void setTopic(const std::string &topic) { m_topic = topic; }
+    void setKey(const std::string &key) { m_key = key; }
+    void setLimit(int limit) { m_limit = limit; }
+
+private:
 };

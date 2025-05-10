@@ -12,7 +12,6 @@
 
 #include "Server.hpp"
 
-
 Server::Server(const std::string &t_port, const std::string &t_password, Model *model, Controller *controller)
     : m_Model(model), m_Controller(controller)
 {

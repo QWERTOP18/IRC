@@ -71,6 +71,30 @@ static inline std::string to_string(int value)
     return oss.str();
 }
 
+inline ID id_hash(const std::string &name)
+{
+    ID hash = 0;
+    for (size_t i = 0; i < name.length(); ++i)
+    {
+        hash = (hash * 31 + name[i]) % 1000000007;
+    }
+    return hash;
+}
+
+inline ID id_hash2(ID id1, ID id2)
+{
+    return (id1 * 31 + id2) % 1000000007;
+}
+
+enum Role
+{
+    NONE,
+    ADMIN,
+    MEMBER,
+    INVITED,
+    BANNED
+};
+
 namespace Err
 {
     namespace Port

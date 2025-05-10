@@ -34,14 +34,12 @@ protected:
     Controller *m_Controller;
 
 public:
-    Server(const std::string &t_port, 
-    const std::string &t_password, Model *model,Controller *controller);
+    Server(const std::string &t_port,
+           const std::string &t_password,
+           Model *model, Controller *controller);
     Server();
-    
+
     ~Server();
-
-
-
 
     void start();
     void poll();

@@ -17,12 +17,12 @@
 int main(int argc, char **argv)
 {
     Model model;
-    Controller controller(&model);//IO以外のモデル操作
+    Controller controller(&model); // IO以外のモデル操作
     try
     {
         if (argc != 3)
             throw std::invalid_argument("Usage: ./IRC <port> <password>");
-        Server server(argv[1], argv[2],&model,&controller);
+        Server server(argv[1], argv[2], &model, &controller);
         server.start();
     }
     catch (const std::exception &e)

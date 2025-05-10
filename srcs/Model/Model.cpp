@@ -8,12 +8,21 @@ Model::Model()
 Model::~Model()
 {
     DEBUG_LOG(__func__);
-    // for (auto &client : m_Client)
-    //     delete client.second;
-    // for (auto &channel : m_Channel)
-    //     delete channel.second;
-    // for (auto &hub : m_Hub)
-    //     delete hub.second;
+    for (std::map<ID, Client *>::iterator it = m_Client.begin(); it != m_Client.end(); ++it)
+    {
+        delete it->second;
+    }
+    m_Client.clear();
+    for (std::map<ID, Channel *>::iterator it = m_Channel.begin(); it != m_Channel.end(); ++it)
+    {
+        delete it->second;
+    }
+    m_Channel.clear();
+    for (std::map<ID, ClientChannelHub *>::iterator it = m_Hub.begin(); it != m_Hub.end(); ++it)
+    {
+        delete it->second;
+    }
+    m_Hub.clear();
 }
 
 std::vector<pollfd> Model::getPollfds() const
@@ -29,4 +38,18 @@ std::vector<pollfd> Model::getPollfds() const
         pollfds.push_back(pfd);
     }
     return pollfds;
+}
+
+int Model::getChannelSize(const std::string &t_name) const
+{
+    DEBUG_LOG(__func__);
+    int size = 0;
+    ID id = id_hash(t_name);
+    for (std::map<ID, ClientChannelHub *>::const_iterator it = m_Hub.begin(); it != m_Hub.end(); ++it)
+    {
+        if (it->second->getChannelId() == id)
+            size++;
+    }
+
+    return size;
 }
