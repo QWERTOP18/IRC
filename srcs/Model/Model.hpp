@@ -40,20 +40,6 @@ public:
     {
         m_Hub[fd] = new ClientChannelHub();
     }
-    void manageClientRequest(int fd)
-    {
-
-        ACommand *command = getClient(fd)->parseRequest();
-        if (command)
-        {
-            command->execute();
-            delete command;
-        }
-        else
-        {
-            LOG("Invalid command");
-        }
-    }
 
     void removeClient(int fd)
     {

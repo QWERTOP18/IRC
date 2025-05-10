@@ -7,7 +7,7 @@ class Parser
 private:
     /* data */
 public:
-    Parser(/* args */);
+    Parser();
     ~Parser();
 
     ACommand *run(const std::string &buffer);

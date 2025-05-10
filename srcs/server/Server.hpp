@@ -20,6 +20,7 @@
 #include <poll.h>
 
 #include "../Model/Model.hpp"
+#include "../Controller/Controller.hpp"
 
 class Server
 {
@@ -29,10 +30,13 @@ private:
     int m_sokcet;
     pollfd m_pollfd;
 
-    Model m_Model;
+    Model *m_Model;
+    Controller *m_Controller;
 
 public:
     Server(const std::string &t_port, const std::string &t_password);
+    Server(const std::string &t_port, const std::string &t_password, Model *model,Controller *controller);
+    
     ~Server();
 
     void start();

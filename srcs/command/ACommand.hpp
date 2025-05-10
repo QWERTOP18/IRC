@@ -9,11 +9,3 @@ public:
     virtual ~ACommand();
     virtual void execute() = 0;
 };
-
-ACommand::ACommand()
-{
-}
-
-ACommand::~ACommand()
-{
-}
