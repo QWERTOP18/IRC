@@ -13,7 +13,9 @@ make
 
 ```sh
 brew install irssi nc
+/connect -ssl irc.libera.chat 6697
 ```
+[how to use irssi](./DOCS/irssi.md)
 
 ```sh
 nc localhost <port>

@@ -10,10 +10,19 @@ Part::~Part()
     DEBUG_LOG(__func__);
 }
 
+// Numeric Replies:
+//            ERR_NEEDMOREPARAMS              ERR_NOSUCHCHANNEL
+//            ERR_NOTONCHANNEL
+//    Examples:
+//    PART #twilight_zone             ; leave channel "#twilight_zone"
+//    PART #oz-ops,&group5            ; leave both channels "&group5" and
+//                                    "#oz-ops".
+
 ResponseBody Part::run()
 {
     DEBUG_LOG(__func__);
     ResponseBody response;
+    response.m_command = "PART";
     if (m_Model->getChannel(id_hash(m_request.m_channel)) != NULL)
     {
         m_Model->addHub(m_request.m_fd, id_hash(m_request.m_channel), MEMBER);

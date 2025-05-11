@@ -15,6 +15,7 @@ ResponseBody Invite::run()
 {
     DEBUG_LOG(__func__);
     ResponseBody response;
+    response.m_command = "INVITE";
     if (m_Model->getClient(m_request.m_fd) == NULL)
     {
         response.m_status = ERR_NOSUCHNICK;

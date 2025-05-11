@@ -17,6 +17,7 @@ ResponseBody Topic::run()
 {
     DEBUG_LOG(__func__);
     ResponseBody response;
+    response.m_command = "TOPIC";
     if (m_request.m_channel.empty())
     {
         response.m_status = ERR_NEEDMOREPARAMS;
