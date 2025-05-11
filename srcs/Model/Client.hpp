@@ -31,6 +31,7 @@ public:
     ~Client();
     int getFd() const { return m_fd; }
     State getStatus() const { return m_status; }
+    std::string &getBuffer() { return m_buf_read; }
     void setFd(int fd) { m_fd = fd; }
     void setStatus(State status) { m_status = status; }
 };

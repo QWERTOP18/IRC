@@ -10,5 +10,5 @@ public:
     Parser();
     ~Parser();
 
-    ACommand *run(std::string &buffer);
+    ACommand *parse(std::string &buffer);
 };

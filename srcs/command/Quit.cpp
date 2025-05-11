@@ -10,12 +10,12 @@ Quit::~Quit()
     DEBUG_LOG(__func__);
 }
 
-ResponseBody Quit::run(RequestBody t_request)
+ResponseBody Quit::run()
 {
     DEBUG_LOG(__func__);
     ResponseBody response;
     // response.m_status = ;
 
-    m_Model->removeClient(t_request.m_fd);
+    m_Model->removeClient(m_request.m_fd);
     return response;
 }

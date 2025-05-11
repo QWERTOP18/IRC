@@ -7,5 +7,5 @@ public:
     Quit();
     ~Quit();
 
-    ResponseBody run(RequestBody t_request);
+    ResponseBody run();
 };

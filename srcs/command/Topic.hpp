@@ -7,5 +7,5 @@ public:
     Topic();
     ~Topic();
 
-    ResponseBody run(RequestBody t_request);
+    ResponseBody run();
 };

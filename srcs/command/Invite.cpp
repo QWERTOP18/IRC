@@ -11,22 +11,22 @@ Invite::~Invite()
     DEBUG_LOG(__func__);
 }
 
-ResponseBody Invite::run(RequestBody t_request)
+ResponseBody Invite::run()
 {
     DEBUG_LOG(__func__);
     ResponseBody response;
-    if (m_Model->getClient(t_request.m_fd) == NULL)
+    if (m_Model->getClient(m_request.m_fd) == NULL)
     {
         response.m_status = ERR_NOSUCHNICK;
         return response;
     }
 
-    if (t_request.m_channel.empty())
+    if (m_request.m_channel.empty())
     {
         response.m_status = ERR_NEEDMOREPARAMS;
         return response;
     }
-    if (m_Model->getChannel(id_hash(t_request.m_channel)) == NULL)
+    if (m_Model->getChannel(id_hash(m_request.m_channel)) == NULL)
     {
         response.m_status = ERR_NOSUCHCHANNEL;
 
@@ -37,12 +37,12 @@ ResponseBody Invite::run(RequestBody t_request)
         return response;
     }
 
-    if (m_Model->getClient(t_request.m_fd)->getStatus() < AUTHENTICATED)
+    if (m_Model->getClient(m_request.m_fd)->getStatus() < AUTHENTICATED)
     {
         response.m_status = 451;
         return response;
     }
-    // if (m_Model->getClient(t_request.m_fd)->isOperator(channel_name) == false)
+    // if (m_Model->getClient(m_request.m_fd)->isOperator(channel_name) == false)
     // {
     //     response.m_status = 482;
     //     return response;
@@ -59,6 +59,6 @@ ResponseBody Invite::run(RequestBody t_request)
     //               channel they are already on.
     // }
 
-    m_Model->addHub(m_Model->getClient(t_request.m_fd)->getFd(), id_hash(t_request.m_channel), INVITED);
+    m_Model->addHub(m_Model->getClient(m_request.m_fd)->getFd(), id_hash(m_request.m_channel), INVITED);
     return response;
 }

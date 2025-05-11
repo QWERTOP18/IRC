@@ -32,4 +32,5 @@ public:
     ~Controller();
     void addClient(int fd);
     void removeClient(int fd);
+    void handleRequest(int fd);
 };
