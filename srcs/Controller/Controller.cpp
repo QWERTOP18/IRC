@@ -54,35 +54,20 @@ void Controller::handleRequest(int fd)
         return;
     DEBUG_LOG("Received: " + buffer);
     send(fd, buffer.c_str(), strlen(buffer.c_str()), 0);
-    buffer.clear();
+    ACommand *cmd = parse(fd, buffer);
 
-    response.m_command = buffer.substr(0, buffer.find("\n"));
-    buffer.erase(0, buffer.find("\n") + 1);
-    // if (response.m_command.empty())
-    //     return;
-    // if (response.m_command[0] == ':')
-    // {
-    //     response.m_command = response.m_command.substr(response.m_command.find(' ') + 1);
-    // }
-    // if (response.m_command.find(' ') != std::string::npos)
-    // {
-    //     response.m_command = response.m_command.substr(0, response.m_command.find(' '));
-    // }
-    if (m_Command.find(response.m_command) == m_Command.end())
+    // if (m_Command.find(response.m_command) == m_Command.end())
+    if (cmd == NULL)
     {
         response.m_status = ERR_UNKNOWNCOMMAND;
         response.m_content = "Unknown command: " + response.m_command;
+        send(fd, response.m_content.c_str(), strlen(response.m_content.c_str()), 0); // delete later
+        buffer.erase(0, buffer.find("\n") + 1);
+        return;
     }
-    // else
-    // {
+    DEBUG_LOG("Command found: " + response.m_command);
 
-    //     ACommand *command = m_Command[response.m_command];
-
-    //     ResponseBody response = command->run();
-
-    //     command->setModel(m_Model);
-    //     response = command->run();
-    // }
-    // LOG("Response: " + std::to_string(response.m_status) + " " + response.m_content);
-    // send(fd, response.m_content.c_str(), response.m_content.size(), 0);
+    response = cmd->run();
+    response.m_command = buffer.substr(0, buffer.find("\n"));
+    buffer.erase(0, buffer.find("\n") + 1);
 }

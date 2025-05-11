@@ -1,7 +1,7 @@
 #pragma once
 
 #include "macro.hpp"
-#include "Parser.hpp"
+// #include "Parser.hpp"
 #include "../Model/Model.hpp"
 
 #include "../Command/Pass.hpp"
@@ -24,7 +24,6 @@ class Controller
 {
 private:
     std::map<std::string, ACommand *> m_Command;
-    Parser m_Parser;
     Model *m_Model;
 
 public:
@@ -33,4 +32,5 @@ public:
     void addClient(int fd);
     void removeClient(int fd);
     void handleRequest(int fd);
+    ACommand *parse(int fd, const std::string &buffer);
 };
