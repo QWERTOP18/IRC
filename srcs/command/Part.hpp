@@ -7,5 +7,5 @@ public:
     Part();
     ~Part();
 
-    ResponseBody run(RequestBody t_request);
+    ResponseBody run();
 };

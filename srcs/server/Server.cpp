@@ -71,7 +71,7 @@ void Server::poll()
             else
             {
                 LOG("Client request: " + to_string(pollfds[i].fd));
-                // m_Controller->handleRequest(pollfds[i].fd, m_Model);
+                m_Controller->handleRequest(pollfds[i].fd);
             }
         }
         if (pollfds[i].revents & POLLHUP)

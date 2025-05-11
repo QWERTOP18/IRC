@@ -7,5 +7,5 @@ public:
     Kick();
     ~Kick();
 
-    ResponseBody run(RequestBody t_request);
+    ResponseBody run();
 };

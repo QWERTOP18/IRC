@@ -7,5 +7,5 @@ public:
     Join();
     ~Join();
 
-    ResponseBody run(RequestBody t_request);
+    ResponseBody run();
 };

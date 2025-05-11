@@ -48,6 +48,16 @@ Client *Model::getClient(int t_fd) const
     return NULL;
 }
 
+Client *Model::getClient(const std::string &t_nick) const
+{
+    for (std::map<ID, Client *>::const_iterator it = m_Client.begin(); it != m_Client.end(); ++it)
+    {
+        if (it->second->getNickname() == t_nick)
+            return it->second;
+    }
+    return NULL;
+}
+
 Channel *Model::getChannel(int t_id) const
 {
     std::map<ID, Channel *>::const_iterator it = m_Channel.find(t_id);
@@ -113,6 +123,7 @@ void Model::removeClient(int t_fd)
         else
             ++it;
     }
+    close(t_fd); // ✨test時に寡黙なエラーを吐きそうなので別の場所に持っていきたい
 }
 
 void Model::removeChannel(int t_id)
@@ -146,4 +157,23 @@ void Model::removeHub(int t_client_id, int t_channel_id)
         else
             ++it;
     }
+}
+
+bool Model::isNickNameInUse(const std::string &t_nickname) const
+{
+    for (std::map<ID, Client *>::const_iterator it = m_Client.begin(); it != m_Client.end(); ++it)
+    {
+        if (it->second->getNickname() == t_nickname)
+            return true;
+    }
+    return false;
+}
+bool Model::isChannelNameInUse(const std::string &t_channel_name) const
+{
+    for (std::map<ID, Channel *>::const_iterator it = m_Channel.begin(); it != m_Channel.end(); ++it)
+    {
+        if (it->second->getName() == t_channel_name)
+            return true;
+    }
+    return false;
 }

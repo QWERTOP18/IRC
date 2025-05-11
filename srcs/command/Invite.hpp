@@ -7,7 +7,7 @@ public:
     Invite();
     ~Invite();
 
-    ResponseBody run(RequestBody t_request);
+    ResponseBody run();
 };
 
 // 4.2.7 Invite message

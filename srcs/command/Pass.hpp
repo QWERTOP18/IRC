@@ -7,5 +7,5 @@ public:
     Pass();
     ~Pass();
 
-    ResponseBody run(RequestBody t_request);
+    ResponseBody run();
 };
