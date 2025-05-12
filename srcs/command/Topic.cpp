@@ -6,16 +6,16 @@
 
 Topic::Topic()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Topic::~Topic()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
-ResponseBody Topic::run()
+ResponseBody Topic::start()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     ResponseBody response;
     response.m_command = "TOPIC";
     if (m_request.m_channel.empty())

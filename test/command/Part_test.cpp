@@ -24,7 +24,7 @@ TEST_F(PartTest, Run_ValidChannel)
 {
     RequestBody request = createRequest("#general");
 
-    ResponseBody response = partCommand->run(request);
+    ResponseBody response = partCommand->start(request);
 
     EXPECT_EQ(response.m_status, 200);
     EXPECT_EQ(response.m_content, "Left channel #general");
@@ -34,7 +34,7 @@ TEST_F(PartTest, Run_InvalidChannel)
 {
     RequestBody request = createRequest("invalid_channel");
 
-    ResponseBody response = partCommand->run(request);
+    ResponseBody response = partCommand->start(request);
 
     EXPECT_EQ(response.m_status, 404);
     EXPECT_EQ(response.m_content, "Channel not found");

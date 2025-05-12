@@ -37,7 +37,7 @@ class Client {
 class Parser {
     <!-- -config -->
     +Parser()
-    +run(Client t_client, string t_input) Command ptr
+    +start(Client t_client, string t_input) Command ptr
 }
 
 class Channel {
@@ -47,7 +47,7 @@ class Channel {
 
 class Command {
     +Command(list~string~ args)
-    +run()
+    +start()
 }
 
 class PASS
@@ -62,7 +62,7 @@ Server --> Channel
 Server --> Parser
 Parser --> Command: New
 Client --> Parser
-Server --> Command: Run
+Server --> Command: start
 Command <|-- PASS
 Command <|-- NICK
 Command <|-- USER

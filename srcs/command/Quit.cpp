@@ -3,11 +3,11 @@
 
 Quit::Quit()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Quit::~Quit()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
 // Numeric Replies:
@@ -15,9 +15,9 @@ Quit::~Quit()
 //    Examples:
 //    QUIT :Gone to have lunch        ; Preferred message format.
 
-ResponseBody Quit::run()
+ResponseBody Quit::start()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     ResponseBody response;
     response.m_command = "QUIT";
     // response.m_status = ;

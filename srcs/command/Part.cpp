@@ -3,11 +3,11 @@
 
 Part::Part()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Part::~Part()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
 // Numeric Replies:
@@ -18,9 +18,9 @@ Part::~Part()
 //    PART #oz-ops,&group5            ; leave both channels "&group5" and
 //                                    "#oz-ops".
 
-ResponseBody Part::run()
+ResponseBody Part::start()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     ResponseBody response;
     response.m_command = "PART";
     if (m_Model->getChannel(id_hash(m_request.m_channel)) != NULL)

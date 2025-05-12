@@ -3,16 +3,27 @@
 
 Join::Join()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Join::~Join()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
-ResponseBody Join::run()
+void Join::parse(int t_fd, const std::string &t_buffer)
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
+    m_request.m_fd = t_fd;
+    std::istringstream iss(t_buffer);
+    std::string command;
+    iss >> command;                     // JOIN
+    iss >> m_request.m_channel;         // channel_name
+    iss >> m_request.m_target_nickname; // target_nick
+}
+
+ResponseBody Join::start()
+{
+    DEBUG_LOG();
     ResponseBody response;
     response.m_command = "JOIN";
     if (m_Model->getChannel(id_hash(m_request.m_channel)) != NULL)

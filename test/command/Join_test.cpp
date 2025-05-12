@@ -24,7 +24,7 @@ TEST_F(JoinTest, Run_ValidChannel)
 {
     RequestBody request = createRequest("#general");
 
-    ResponseBody response = joinCommand->run(request);
+    ResponseBody response = joinCommand->start(request);
 
     EXPECT_EQ(response.m_status, 200);
     EXPECT_EQ(response.m_content, "Joined channel #general");
@@ -34,7 +34,7 @@ TEST_F(JoinTest, Run_InvalidChannel)
 {
     RequestBody request = createRequest("invalid_channel");
 
-    ResponseBody response = joinCommand->run(request);
+    ResponseBody response = joinCommand->start(request);
 
     EXPECT_EQ(response.m_status, 400);
     EXPECT_EQ(response.m_content, "Invalid channel name");

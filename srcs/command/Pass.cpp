@@ -3,17 +3,17 @@
 
 Pass::Pass()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Pass::~Pass()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
 // ERR_NEEDMOREPARAMS              ERR_ALREADYREGISTRED
-ResponseBody Pass::run()
+ResponseBody Pass::start()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     ResponseBody response;
     if (m_request.m_content != m_Model->getPassword())
     {

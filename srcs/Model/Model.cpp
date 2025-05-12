@@ -2,12 +2,12 @@
 
 Model::Model()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
 Model::~Model()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     for (std::map<ID, Client *>::iterator it = m_Client.begin(); it != m_Client.end(); ++it)
     {
         delete it->second;
@@ -27,7 +27,7 @@ Model::~Model()
 
 std::vector<pollfd> Model::getPollfds() const
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     std::vector<pollfd> pollfds;
     for (std::map<ID, Client *>::const_iterator client = m_Client.begin(); client != m_Client.end(); ++client)
     {
@@ -68,7 +68,7 @@ Channel *Model::getChannel(int t_id) const
 
 int Model::getChannelSize(const std::string &t_name) const
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     int size = 0;
     ID id = id_hash(t_name);
     for (std::map<ID, ClientChannelHub *>::const_iterator it = m_Hub.begin(); it != m_Hub.end(); ++it)
@@ -81,7 +81,7 @@ int Model::getChannelSize(const std::string &t_name) const
 
 bool Model::isClientOnChannel(int t_client_id, int t_channel_id) const
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     for (std::map<ID, ClientChannelHub *>::const_iterator it = m_Hub.begin(); it != m_Hub.end(); ++it)
     {
         if (it->second->getClientId() == t_client_id && it->second->getChannelId() == t_channel_id)

@@ -7,5 +7,6 @@ public:
     Topic();
     ~Topic();
 
-    ResponseBody run();
+    void parse(int t_fd, const std::string &t_buffer);
+    ResponseBody start();
 };

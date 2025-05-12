@@ -4,16 +4,27 @@
 
 Invite::Invite()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Invite::~Invite()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
-ResponseBody Invite::run()
+void Invite::parse(int t_fd, const std::string &t_buffer)
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
+    m_request.m_fd = t_fd;
+    std::istringstream iss(t_buffer);
+    std::string command;
+    iss >> command;                     // INVITE
+    iss >> m_request.m_target_nickname; // target_nick
+    iss >> m_request.m_channel;         // channel_name
+}
+
+ResponseBody Invite::start()
+{
+    DEBUG_LOG();
     ResponseBody response;
     response.m_command = "INVITE";
     if (m_Model->getClient(m_request.m_fd) == NULL)

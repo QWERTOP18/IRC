@@ -3,11 +3,11 @@
 
 Kick::Kick()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Kick::~Kick()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 // Numeric Replies:
 
@@ -15,9 +15,9 @@ Kick::~Kick()
 //            ERR_BADCHANMASK                 ERR_CHANOPRIVSNEEDED
 //            ERR_NOTONCHANNEL
 
-ResponseBody Kick::run()
+ResponseBody Kick::start()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     ResponseBody response;
     response.m_command = "KICK";
     if (m_request.m_channel.empty())

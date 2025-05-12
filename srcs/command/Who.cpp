@@ -3,11 +3,11 @@
 
 Who::Who()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Who::~Who()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
 // Numeric Replies:
@@ -19,9 +19,9 @@ Who::~Who()
 //    WHO jto* o                      ; List all users with a match against
 //                                    "jto*" if they are an operator.
 
-ResponseBody Who::run()
+ResponseBody Who::start()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     ResponseBody response;
     response.m_command = "WHO";
     if (m_request.m_nickname.empty())

@@ -7,5 +7,6 @@ public:
     Quit();
     ~Quit();
 
-    ResponseBody run();
+    ResponseBody start();
+    void parse(int t_fd, const std::string &t_buffer);
 };

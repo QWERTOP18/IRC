@@ -14,7 +14,7 @@ sequenceDiagram
     Server->>Parser: parse(PASS)
     Parser->>Command: new PASS
     Parser-->>Server: return Command*
-    Server->>Command: run()
+    Server->>Command: start()
     Command-->>Client: OK
 
     Client->>Server: NICK bob
@@ -22,7 +22,7 @@ sequenceDiagram
     Server->>Parser: parse(NICK)
     Parser->>Command: new NICK
     Parser-->>Server: return Command*
-    Server->>Command: run()
+    Server->>Command: start()
     Command-->>Client: OK
 
     Client->>Server: USER bob 0 * :Bob
@@ -30,7 +30,7 @@ sequenceDiagram
     Server->>Parser: parse(USER)
     Parser->>Command: new USER
     Parser-->>Server: return Command*
-    Server->>Command: run()
+    Server->>Command: start()
     Command-->>Client: :Welcome
 
     Client->>Server: JOIN room
@@ -38,7 +38,7 @@ sequenceDiagram
     Server->>Parser: parse(JOIN)
     Parser->>Command: new JOIN
     Parser-->>Server: return Command*
-    Server->>Command: run()
+    Server->>Command: start()
     Command-->>Client: JOIN success
 
     Client->>Server: PRIVMSG room hello everyone!!
@@ -46,7 +46,7 @@ sequenceDiagram
     Server->>Parser: parse(PRIVMSG)
     Parser->>Command: new PRIVMSG
     Parser-->>Server: return Command*
-    Server->>Command: run()
+    Server->>Command: start()
     Command-->>Client: hello everyone!!
 
 ```

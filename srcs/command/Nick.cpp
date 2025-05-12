@@ -3,11 +3,11 @@
 
 Nick::Nick()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Nick::~Nick()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
 // Numeric Replies:
@@ -17,9 +17,19 @@ Nick::~Nick()
 //    NICK Wiz                        ; Introducing new nick "Wiz".
 //    :WiZ NICK Kilroy                ; WiZ changed his nickname to Kilroy.
 
-ResponseBody Nick::run()
+void Nick::parse(int t_fd, const std::string &t_buffer)
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
+    m_request.m_fd = t_fd;
+    std::istringstream iss(t_buffer);
+    std::string command;
+    iss >> command;              // NICK
+    iss >> m_request.m_nickname; // nickname
+}
+
+ResponseBody Nick::start()
+{
+    DEBUG_LOG();
     ResponseBody response;
     response.m_command = "NICK";
     if (m_request.m_nickname.empty())
