@@ -2,18 +2,18 @@
 
 Controller::Controller(Model *model) : m_Model(model)
 {
-    m_Command["PASS"] = new Pass();
-    m_Command["NICK"] = new Nick();
+    // m_Command["PASS"] = new Pass();
+    // m_Command["NICK"] = new Nick();
     // m_Command["USER"] = new User();
-    m_Command["JOIN"] = new Join();
-    m_Command["PART"] = new Part();
-    m_Command["PRIVMSG"] = new PrivMsg();
-    m_Command["QUIT"] = new Quit();
+    // m_Command["JOIN"] = new Join();
+    // m_Command["PART"] = new Part();
+    // m_Command["PRIVMSG"] = new PrivMsg();
+    // m_Command["QUIT"] = new Quit();
     // m_Command["MODE"] = new Mode();
-    m_Command["TOPIC"] = new Topic();
-    m_Command["KICK"] = new Kick();
+    // m_Command["TOPIC"] = new Topic();
+    // m_Command["KICK"] = new Kick();
     // m_Command["INVITE"] = new Invite();
-    m_Command["WHO"] = new Who();
+    m_Command["WHO"] = new Who(model);
 }
 
 Controller::~Controller()
@@ -35,10 +35,10 @@ void Controller::removeClient(int fd)
     m_Model->removeClient(fd);
 }
 
-void Controller::handleRequest(int fd)
+void Controller::handleRequest(int t_fd)
 {
     DEBUG_LOG();
-    std::string line = readRequest(fd);
+    std::string line = readRequest(t_fd);
     if (line.empty())
         return;
     std::string command = getCmdName(line);
@@ -48,5 +48,8 @@ void Controller::handleRequest(int fd)
         return;
     }
     ACommand *cmd = m_Command[command];
-    ResponseBody respoonse = cmd->start();
+    ResponseBody response = cmd->start(t_fd, line);
+
+    // 👍QUITの時は送らないように
+    sendResponse(t_fd, response);
 }

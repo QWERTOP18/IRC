@@ -15,14 +15,30 @@ ACommand::~ACommand()
     DEBUG_LOG();
 }
 
+ResponseBody ACommand::start(int t_fd, const std::string &t_line)
+{
+    DEBUG_LOG();
+    ResponseBody response;
+    RequestBody request;
+
+    if (m_Model->getClient(t_fd) == NULL)
+    {
+        response.m_status = ERR_NOSUCHNICK;
+        return response;
+    }
+    request = parse(t_line);
+    response = run(request);
+    return response;
+}
+
 // ✨できればこのmethodはControllerに移動させたい
-void ACommand::broadcast(int fd, const std::string &t_message, int t_channel_id)
+void ACommand::broadcast(const std::string &t_message, int t_channel_id)
 {
     DEBUG_LOG();
     const std::map<int, ClientChannelHub *> &hub = m_Model->getHub();
     for (std::map<int, ClientChannelHub *>::const_iterator it = hub.begin(); it != hub.end(); ++it)
     {
-        if (it->second->getChannelId() == t_channel_id && it->first != fd)
+        if (it->second->getChannelId() == t_channel_id)
         {
             sendToClient(it->first, t_message);
         }

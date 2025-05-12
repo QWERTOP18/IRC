@@ -66,6 +66,17 @@ Channel *Model::getChannel(int t_id) const
     return NULL;
 }
 
+Channel *Model::getChannel(const std::string &t_name) const
+{
+    ID id = id_hash(t_name);
+    for (std::map<ID, Channel *>::const_iterator it = m_Channel.begin(); it != m_Channel.end(); ++it)
+    {
+        if (it->second->getId() == id)
+            return it->second;
+    }
+    return NULL;
+}
+
 int Model::getChannelSize(const std::string &t_name) const
 {
     DEBUG_LOG();

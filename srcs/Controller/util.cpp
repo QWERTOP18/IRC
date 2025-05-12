@@ -31,3 +31,10 @@ std::string Controller::readRequest(int fd)
     buffer.erase(0, buffer.find("\n") + 1);
     return line;
 }
+
+void Controller::sendResponse(int fd, const ResponseBody &response)
+{
+    DEBUG_LOG();
+    std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
+    send(fd, message.c_str(), message.size(), 0);
+}

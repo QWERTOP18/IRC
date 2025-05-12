@@ -45,6 +45,7 @@ void Server::start()
     }
 }
 
+// ✨shotern this method
 void Server::poll()
 {
     DEBUG_LOG();

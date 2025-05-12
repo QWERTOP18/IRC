@@ -36,6 +36,12 @@ public:
     const std::string &getUsername() const { return m_username; }
     const std::string &getRealname() const { return m_realname; }
     const std::string &getHostname() const { return m_hostname; }
+
+    const std::string getClientInfo() const
+    {
+        return m_nickname + "!" + m_username + "@" + m_hostname;
+    }
+
     void setNickname(const std::string &nickname) { m_nickname = nickname; }
     void setUsername(const std::string &username) { m_username = username; }
     void setRealname(const std::string &realname) { m_realname = realname; }

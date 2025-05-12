@@ -27,6 +27,7 @@ private:
     Model *m_Model;
     std::string getCmdName(const std::string &buffer);
     std::string readRequest(int fd); // ⚠️bufferに追加
+    void sendResponse(int fd, const ResponseBody &response);
 
 public:
     Controller(Model *model);
