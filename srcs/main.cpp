@@ -17,7 +17,7 @@
 int main(int argc, char **argv)
 {
     Model model;
-    Controller controller(&model); // IO以外のモデル操作
+    Controller controller(&model);
     try
     {
         if (argc != 3)

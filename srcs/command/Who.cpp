@@ -1,45 +1,42 @@
 #include "Who.hpp"
 #include "../Model/Model.hpp"
-
 Who::Who()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
+}
+Who::Who(Model *t_model) : ACommandBase(t_model)
+{
+    DEBUG_LOG();
 }
 Who::~Who()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 
-// Numeric Replies:
-//            ERR_NOSUCHSERVER
-//            RPL_WHOREPLY                    RPL_ENDOFWHO
-//    Examples:
-//    WHO *.fi                        ; List all users who match against
-//                                    "*.fi".
-//    WHO jto* o                      ; List all users with a match against
-//                                    "jto*" if they are an operator.
-
-ResponseBody Who::run()
+ResponseBody Who::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
     ResponseBody response;
-    response.m_command = "WHO";
-    if (m_request.m_nickname.empty())
-    {
-        response.m_status = ERR_NOSUCHSERVER;
-        return response;
-    }
-    Client *client = m_Model->getClient(m_request.m_fd);
-    if (client == NULL)
+    Client *target_client = m_Model->getClient(t_request.m_fd);
+    if (target_client == NULL)
     {
         response.m_status = RPL_ENDOFWHO;
+        response.m_fd = t_fd; // ✨update prefix
+        response.m_content = "List all users who match against   \"" + t_request.m_target_nickname + "\".";
         return response;
     }
-
     response.m_status = RPL_WHOREPLY;
-    response.m_nickname = client->getNickname();
-    response.m_hostname = client->getHostname();
-    response.m_content = "is a user on the server";
+    response.m_nickname = target_client->getClientInfo();
 
     return response;
+}
+
+RequestBody Who::parse(const std::string &t_line)
+{
+    DEBUG_LOG();
+    RequestBody request;
+    std::istringstream iss(t_line);
+    iss >> request.m_command;         // WHO
+    iss >> request.m_target_nickname; // target_channel
+    return request;
 }

@@ -2,9 +2,9 @@
 
 Client::Client(int fd) : m_fd(fd)
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }
 Client::~Client()
 {
-    DEBUG_LOG(__func__);
+    DEBUG_LOG();
 }

@@ -1,16 +1,17 @@
 #include "ACommand.hpp"
 
-ACommand::ACommand()
+ResponseBody ACommand::start(int t_fd, const std::string &t_line)
 {
-    DEBUG_LOG(__func__);
-}
+    DEBUG_LOG();
+    ResponseBody response;
+    RequestBody request;
 
-ACommand::~ACommand()
-{
-    DEBUG_LOG(__func__);
-}
-
-void ACommand::setModel(Model *t_model)
-{
-    m_Model = t_model;
+    // if (m_Model->getClient(t_fd) == NULL)
+    // {
+    //     response.m_status = ERR_NOSUCHNICK;
+    //     return response;
+    // }
+    request = parse(t_line);
+    response = run(t_fd, request);
+    return response;
 }

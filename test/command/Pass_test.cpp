@@ -29,7 +29,7 @@ TEST_F(PassTest, Run_ValidPassword)
 {
     RequestBody request;
     request.m_content = "Password";
-    ResponseBody response = passCommand->run(request);
+    ResponseBody response = passCommand->start(request);
 
     // EXPECT_EQ(response.m_status, ERR_PASSWDMISMATCH);
     // EXPECT_EQ(response.m_content, "");
@@ -40,7 +40,7 @@ TEST_F(PassTest, Run_InvalidPassword)
     RequestBody request;
     request.m_content = "wrong_password";
 
-    ResponseBody response = passCommand->run(request);
+    ResponseBody response = passCommand->start(request);
 
     EXPECT_EQ(response.m_status, ERR_PASSWDMISMATCH);
     // EXPECT_EQ(response.m_content, "Invalid password");

@@ -24,7 +24,13 @@ class Controller
 {
 private:
     std::map<std::string, ACommand *> m_Command;
+    std::map<std::string, ABuiltin *> m_Builtin;
+
     Model *m_Model;
+    std::string getCmdName(const std::string &buffer);
+    ACommandBase *getCmdBase(const std::string &t_line);
+    std::string readRequest(int fd); // ⚠️bufferに追加
+    void sendResponse(int fd, const ResponseBody &response);
 
 public:
     Controller(Model *model);
@@ -32,5 +38,4 @@ public:
     void addClient(int fd);
     void removeClient(int fd);
     void handleRequest(int fd);
-    ACommand *parse(int fd, const std::string &buffer);
 };

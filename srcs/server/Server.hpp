@@ -43,7 +43,6 @@ public:
 
     void start();
     void poll();
-    // std::string const &readRequest(int fd, std::string &buffer);
 
 protected:
     void setPort(const std::string &t_port);

@@ -2,18 +2,19 @@
 
 Controller::Controller(Model *model) : m_Model(model)
 {
-    m_Command["PASS"] = new Pass();
-    m_Command["NICK"] = new Nick();
+    m_Builtin["QUIT"] = new Quit(model);
+    // m_Command["PASS"] = new Pass();
+
+    // m_Command["NICK"] = new Nick();
     // m_Command["USER"] = new User();
-    m_Command["JOIN"] = new Join();
-    m_Command["PART"] = new Part();
+    // m_Command["JOIN"] = new Join();
+    // m_Command["PART"] = new Part();
     // m_Command["PRIVMSG"] = new PrivMsg();
-    m_Command["QUIT"] = new Quit();
     // m_Command["MODE"] = new Mode();
-    m_Command["TOPIC"] = new Topic();
-    m_Command["KICK"] = new Kick();
+    // m_Command["TOPIC"] = new Topic();
+    // m_Command["KICK"] = new Kick();
     // m_Command["INVITE"] = new Invite();
-    m_Command["WHO"] = new Who();
+    m_Command["WHO"] = new Who(model);
 }
 
 Controller::~Controller()
@@ -35,39 +36,29 @@ void Controller::removeClient(int fd)
     m_Model->removeClient(fd);
 }
 
-void Controller::handleRequest(int fd)
+void Controller::handleRequest(int t_fd)
 {
-    DEBUG_LOG(__func__);
-    ResponseBody response;
-    RequestBody request;
-
-    std::string &buffer = m_Model->getClient(fd)->getBuffer();
-    char buf[1024];
-    ssize_t bytesRead = recv(fd, buf, sizeof(buf) - 1, 0);
-    if (bytesRead <= 0 and (errno != EWOULDBLOCK))
+    DEBUG_LOG();
+    std::string line = readRequest(t_fd);
+    if (line.empty())
+        return;
+    ACommandBase *cmdBase = getCmdBase(line);
+    if (cmdBase == NULL)
     {
+        LOG("Command not found: " + line);
         return;
     }
-    buf[bytesRead] = '\0';
-    buffer += buf;
-    if (buffer.find("\n") == std::string::npos)
-        return;
-    DEBUG_LOG("Received: " + buffer);
-    send(fd, buffer.c_str(), strlen(buffer.c_str()), 0);
-    ACommand *cmd = parse(fd, buffer);
-
-    // if (m_Command.find(response.m_command) == m_Command.end())
-    if (cmd == NULL)
+    // Quitなどの出力を返さないコマンドはBuiltinとして処理
+    if (ABuiltin *cmd = dynamic_cast<ABuiltin *>(cmdBase))
     {
-        response.m_status = ERR_UNKNOWNCOMMAND;
-        response.m_content = "Unknown command: " + response.m_command;
-        send(fd, response.m_content.c_str(), strlen(response.m_content.c_str()), 0); // delete later
-        buffer.erase(0, buffer.find("\n") + 1);
+        cmd->start(t_fd, line);
         return;
     }
-    DEBUG_LOG("Command found: " + response.m_command);
-
-    response = cmd->run();
-    response.m_command = buffer.substr(0, buffer.find("\n"));
-    buffer.erase(0, buffer.find("\n") + 1);
+    if (ACommand *cmd = dynamic_cast<ACommand *>(cmdBase))
+    {
+        ResponseBody response = cmd->start(t_fd, line);
+        sendResponse(t_fd, response);
+        return;
+    }
+    LOG("Command not found: " + line);
 }

@@ -7,7 +7,8 @@ public:
     Invite();
     ~Invite();
 
-    ResponseBody run();
+    ResponseBody run(int t_fd, RequestBody t_request);
+    RequestBody parse(const std::string &t_line);
 };
 
 // 4.2.7 Invite message

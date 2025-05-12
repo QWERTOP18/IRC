@@ -1,18 +1,8 @@
 #pragma once
-#include "macro.hpp"
+#include "ACommandBase.hpp"
 
-class Model; // Forward declaration
-
-class ACommand
+class ACommand : virtual public ACommandBase
 {
-protected:
-    Model *m_Model;
-    RequestBody m_request;
-
 public:
-    ACommand();
-    void setModel(Model *t_model);
-    void setRequest(const RequestBody &t_request) { m_request = t_request; }
-    virtual ~ACommand();
-    virtual ResponseBody run() = 0;
+    ResponseBody start(int t_fd, const std::string &t_line);
 };
