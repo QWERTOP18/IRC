@@ -4,7 +4,7 @@ Who::Who()
 {
     DEBUG_LOG();
 }
-Who::Who(Model *t_model) : ACommand(t_model)
+Who::Who(Model *t_model) : ACommandBase(t_model)
 {
     DEBUG_LOG();
 }
@@ -12,24 +12,16 @@ Who::~Who()
 {
     DEBUG_LOG();
 }
-// Numeric Replies:
-//            ERR_NOSUCHSERVER
-//            RPL_WHOREPLY                    RPL_ENDOFWHO
-//    Examples:
-//    WHO *.fi                        ; List all users who match against
-//                                    "*.fi".
-//    WHO jto* o                      ; List all users with a match against
-//                                    "jto*" if they are an operator.
 
-ResponseBody Who::run(RequestBody t_request)
+ResponseBody Who::run(int t_fd, RequestBody t_request)
 {
     DEBUG_LOG();
     ResponseBody response;
-    response.m_command = "WHO";
     Client *target_client = m_Model->getClient(t_request.m_fd);
     if (target_client == NULL)
     {
         response.m_status = RPL_ENDOFWHO;
+        response.m_fd = t_fd; // ✨update prefix
         response.m_content = "List all users who match against   \"" + t_request.m_target_nickname + "\".";
         return response;
     }

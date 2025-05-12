@@ -2,13 +2,14 @@
 
 Controller::Controller(Model *model) : m_Model(model)
 {
+    m_Builtin["QUIT"] = new Quit(model);
     // m_Command["PASS"] = new Pass();
+
     // m_Command["NICK"] = new Nick();
     // m_Command["USER"] = new User();
     // m_Command["JOIN"] = new Join();
     // m_Command["PART"] = new Part();
     // m_Command["PRIVMSG"] = new PrivMsg();
-    // m_Command["QUIT"] = new Quit();
     // m_Command["MODE"] = new Mode();
     // m_Command["TOPIC"] = new Topic();
     // m_Command["KICK"] = new Kick();
@@ -41,15 +42,23 @@ void Controller::handleRequest(int t_fd)
     std::string line = readRequest(t_fd);
     if (line.empty())
         return;
-    std::string command = getCmdName(line);
-    if (m_Command.find(command) == m_Command.end())
+    ACommandBase *cmdBase = getCmdBase(line);
+    if (cmdBase == NULL)
     {
-        LOG("Unknown command: " + command);
+        LOG("Command not found: " + line);
         return;
     }
-    ACommand *cmd = m_Command[command];
-    ResponseBody response = cmd->start(t_fd, line);
-
-    // 👍QUITの時は送らないように
-    sendResponse(t_fd, response);
+    // Quitなどの出力を返さないコマンドはBuiltinとして処理
+    if (ABuiltin *cmd = dynamic_cast<ABuiltin *>(cmdBase))
+    {
+        cmd->start(t_fd, line);
+        return;
+    }
+    if (ACommand *cmd = dynamic_cast<ACommand *>(cmdBase))
+    {
+        ResponseBody response = cmd->start(t_fd, line);
+        sendResponse(t_fd, response);
+        return;
+    }
+    LOG("Command not found: " + line);
 }

@@ -24,8 +24,11 @@ class Controller
 {
 private:
     std::map<std::string, ACommand *> m_Command;
+    std::map<std::string, ABuiltin *> m_Builtin;
+
     Model *m_Model;
     std::string getCmdName(const std::string &buffer);
+    ACommandBase *getCmdBase(const std::string &t_line);
     std::string readRequest(int fd); // ⚠️bufferに追加
     void sendResponse(int fd, const ResponseBody &response);
 

@@ -6,8 +6,18 @@ std::string Controller::getCmdName(const std::string &t_buffer)
     std::istringstream iss(t_buffer);
     std::string command;
     iss >> command;
-
     return command;
+}
+
+ACommandBase *Controller::getCmdBase(const std::string &t_line)
+{
+    DEBUG_LOG();
+    std::string cmdName = getCmdName(t_line);
+    if (m_Command.find(cmdName) != m_Command.end())
+        return m_Command[cmdName];
+    if (m_Builtin.find(cmdName) != m_Builtin.end())
+        return m_Builtin[cmdName];
+    return NULL;
 }
 
 std::string Controller::readRequest(int fd)

@@ -1,49 +1,45 @@
-// #include "Nick.hpp"
-// #include "../Model/Model.hpp"
+#include "Nick.hpp"
+#include "../Model/Model.hpp"
+Nick::Nick()
+{
+    DEBUG_LOG();
+}
+Nick::Nick(Model *t_model) : ACommandBase(t_model)
+{
+    DEBUG_LOG();
+}
+Nick::~Nick()
+{
+    DEBUG_LOG();
+}
+ResponseBody Nick::run(int t_fd, RequestBody t_request)
+{
+    DEBUG_LOG();
+    ResponseBody response;
+    if (t_request.m_content.empty())
+    {
+        response.m_status = ERR_NONICKNAMEGIVEN;
+        return response;
+    }
+    if (m_Model->isNickNameInUse(t_request.m_content))
+    {
+        response.m_status = ERR_NICKNAMEINUSE;
+        return response;
+    }
+    Client *client = m_Model->getClient(t_fd);
+    client->setNickname(t_request.m_content);
 
-// Nick::Nick()
-// {
-//     DEBUG_LOG();
-// }
-// Nick::~Nick()
-// {
-//     DEBUG_LOG();
-// }
+    LOG("Client " + std::to_string(t_fd) + " changed nickname to " + t_request.m_content);
 
-// // Numeric Replies:
-// //            ERR_NONICKNAMEGIVEN             ERR_ERRONEUSNICKNAME
-// //            ERR_NICKNAMEINUSE               ERR_NICKCOLLISION
-// //    Example:
-// //    NICK Wiz                        ; Introducing new nick "Wiz".
-// //    :WiZ NICK Kilroy                ; WiZ changed his nickname to Kilroy.
+    return response;
+}
 
-// void Nick::parse(int t_fd, const std::string &t_buffer)
-// {
-//     DEBUG_LOG();
-//     m_request.m_fd = t_fd;
-//     std::istringstream iss(t_buffer);
-//     std::string command;
-//     iss >> command;              // NICK
-//     iss >> m_request.m_nickname; // nickname
-// }
-
-// ResponseBody Nick::start()
-// {
-//     DEBUG_LOG();
-//     ResponseBody response;
-//     response.m_command = "NICK";
-//     if (m_request.m_nickname.empty())
-//     {
-//         response.m_status = ERR_NONICKNAMEGIVEN;
-//         return response;
-//     }
-//     if (m_Model->isNickNameInUse(m_request.m_nickname) == true)
-//     {
-//         response.m_status = ERR_NICKNAMEINUSE;
-//         return response;
-//     }
-
-//     m_Model->getClient(m_request.m_fd)->setNickname(m_request.m_nickname);
-//     LOG("Client nickname set: " + to_string(m_request.m_fd) + " NICK " + m_request.m_nickname);
-//     return response;
-// }
+RequestBody Nick::parse(const std::string &t_line)
+{
+    DEBUG_LOG();
+    RequestBody request;
+    std::istringstream iss(t_line);
+    iss >> request.m_command; // NICK
+    iss >> request.m_content;
+    return request;
+}
