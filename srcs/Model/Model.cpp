@@ -124,6 +124,7 @@ void Model::removeClient(int t_fd)
     delete m_Client[t_fd];
     m_Client.erase(t_fd);
 
+    // broadcastしてもいいかも
     for (std::map<ID, ClientChannelHub *>::iterator it = m_Hub.begin(); it != m_Hub.end();)
     {
         if (it->second->getClientId() == t_fd)

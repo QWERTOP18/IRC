@@ -22,6 +22,8 @@ public:
     ~Model();
 
     // Getters
+    const std::string getModelInfo() const;
+
     std::vector<pollfd> getPollfds() const;
     // std::map<ID, Client *> getClients() const { return m_Client; }
     std::map<ID, ClientChannelHub *> getHub() const { return m_Hub; }

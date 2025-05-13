@@ -17,7 +17,7 @@ ResponseBody Who::run(int t_fd, RequestBody t_request)
 {
     DEBUG_LOG();
     ResponseBody response;
-    Client *target_client = m_Model->getClient(t_request.m_fd);
+    Client *target_client = m_Model->getClient(t_request.m_target_nickname);
     if (target_client == NULL)
     {
         response.m_status = RPL_ENDOFWHO;
@@ -26,7 +26,7 @@ ResponseBody Who::run(int t_fd, RequestBody t_request)
         return response;
     }
     response.m_status = RPL_WHOREPLY;
-    response.m_nickname = target_client->getClientInfo();
+    response.m_content = target_client->getClientInfo();
 
     return response;
 }

@@ -5,6 +5,7 @@ class PrivMsg : public ACommand
 {
 public:
     PrivMsg();
+    PrivMsg(Model *t_model);
     ~PrivMsg();
 
     ResponseBody run(int t_fd, RequestBody t_request);
