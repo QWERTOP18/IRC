@@ -6,14 +6,14 @@ Controller::Controller(Model *model) : m_Model(model)
     m_Command["PASS"] = new Pass(model);
 
     m_Command["NICK"] = new Nick(model);
-    // m_Command["USER"] = new User(model);
+    m_Command["USER"] = new User(model);
     m_Command["JOIN"] = new Join(model);
-    // m_Command["PART"] = new Part(model);
-    // m_Command["PRIVMSG"] = new PrivMsg(model);
+    m_Command["PART"] = new Part(model);
+    m_Command["PRIVMSG"] = new PrivMsg(model);
     // m_Command["MODE"] = new Mode(model);
-    // m_Command["TOPIC"] = new Topic(model);
+    m_Command["TOPIC"] = new Topic(model);
     // m_Command["KICK"] = new Kick(model);
-    // m_Command["INVITE"] = new Invite(model);
+    m_Command["INVITE"] = new Invite(model);
     m_Command["WHO"] = new Who(model);
 }
 

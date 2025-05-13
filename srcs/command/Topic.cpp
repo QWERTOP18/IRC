@@ -1,49 +1,67 @@
-// #include "Topic.hpp"
-// #include "../Model/Model.hpp"
-// //            ERR_NEEDMOREPARAMS              ERR_NOTONCHANNEL
-// //            RPL_NOTOPIC                     RPL_TOPIC
-// //            ERR_CHANOPRIVSNEEDED
+#include "Topic.hpp"
+#include "../Model/Model.hpp"
 
-// Topic::Topic()
-// {
-//     DEBUG_LOG();
-// }
-// Topic::~Topic()
-// {
-//     DEBUG_LOG();
-// }
+Topic::Topic()
+{
+    DEBUG_LOG();
+}
+Topic::Topic(Model *t_model) : ACommandBase(t_model)
+{
+    DEBUG_LOG();
+}
+Topic::~Topic()
+{
+    DEBUG_LOG();
+}
 
-// ResponseBody Topic::start()
-// {
-//     DEBUG_LOG();
-//     ResponseBody response;
-//     response.m_command = "TOPIC";
-//     if (m_request.m_channel.empty())
-//     {
-//         response.m_status = ERR_NEEDMOREPARAMS;
-//         return response;
-//     }
-//     if (m_Model->getChannel(id_hash(m_request.m_channel)) == NULL)
-//     {
-//         response.m_status = ERR_NOSUCHCHANNEL;
-//         return response;
-//     }
-//     if (m_Model->isClientOnChannel(m_request.m_fd, id_hash(m_request.m_channel)) == false)
-//     {
-//         response.m_status = ERR_NOTONCHANNEL;
-//         return response;
-//     }
-//     if (m_request.m_content.empty())
-//     {
-//         response.m_status = RPL_TOPIC;
-//         response.m_content = m_Model->getChannel(id_hash(m_request.m_channel))->getTopic();
-//     }
-//     else
-//     {
-//         m_Model->getChannel(id_hash(m_request.m_channel))->setTopic(m_request.m_content);
-//         response.m_status = RPL_TOPIC;
-//         response.m_content = m_request.m_content;
-//     }
+RequestBody Topic::parse(const std::string &t_line)
+{
+    DEBUG_LOG();
+    std::istringstream iss(t_line);
+    RequestBody request;
+    iss >> request.m_command;        // Topic
+    iss >> request.m_target_channel; // channel_name
+    iss >> request.m_content;        // topic
+    return request;
+}
 
-//     return response;
-// }
+ResponseBody Topic::run(int t_fd, RequestBody t_request)
+{
+    DEBUG_LOG();
+    ResponseBody response;
+    response.m_command = "TOPIC";
+
+    Channel *ch = m_Model->getChannel(t_request.m_target_channel);
+    if (ch == NULL)
+    {
+        response.m_status = ERR_NOSUCHCHANNEL;
+        return response;
+    }
+    if (!m_Model->isClientOnChannel(t_fd, ch->getId()))
+    {
+        response.m_status = ERR_NOTONCHANNEL;
+        return response;
+    }
+
+    if (t_request.m_content.empty())
+    {
+        response.m_status = RPL_TOPIC;
+        response.m_content = ch->getTopic();
+        if (response.m_content.empty())
+        {
+            response.m_status = RPL_NOTOPIC;
+            response.m_content = "No topic is set";
+        }
+    }
+    else
+    {
+        ch->setTopic(t_request.m_content);
+        response.m_status = RPL_TOPIC;
+        response.m_content = "Topic set to " + t_request.m_content;
+
+        this->broadcast(t_fd, ch->getId(), "topic changed");
+        LOG("topic changed: " + t_request.m_content);
+    }
+
+    return response;
+}

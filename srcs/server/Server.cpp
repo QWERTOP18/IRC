@@ -41,6 +41,10 @@ void Server::start()
 
     while (1)
     {
+#ifdef DEBUG
+
+        LOG(m_Model->getModelInfo());
+#endif
         this->poll();
     }
 }

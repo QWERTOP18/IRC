@@ -25,6 +25,7 @@ ResponseBody Nick::run(int t_fd, RequestBody t_request)
     if (m_Model->isNickNameInUse(t_request.m_content))
     {
         response.m_status = ERR_NICKNAMEINUSE;
+        response.m_content = "Nickname is already in use";
         return response;
     }
     Client *client = m_Model->getClient(t_fd);
@@ -36,6 +37,10 @@ ResponseBody Nick::run(int t_fd, RequestBody t_request)
         response.m_status = RPL_WELCOME;
         // :server 001 <nick> :Welcome to the <network> Network, <nick>[!<user>@<host>]
         response.m_content = "Welcome to the  Network, " + client->getNickname();
+    }
+    else
+    {
+        response.m_status = NO_REPLY;
     }
 
     LOG("Client " + std::to_string(t_fd) + "  is now known as " + t_request.m_content);

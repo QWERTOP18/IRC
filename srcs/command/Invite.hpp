@@ -5,6 +5,7 @@ class Invite : public ACommand
 {
 public:
     Invite();
+    Invite(Model *t_model);
     ~Invite();
 
     ResponseBody run(int t_fd, RequestBody t_request);

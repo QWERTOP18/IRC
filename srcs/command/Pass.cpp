@@ -18,17 +18,12 @@ ResponseBody Pass::run(int t_fd, RequestBody t_request)
     ResponseBody response;
     if (t_request.m_content.empty())
     {
-        response.m_status = ERR_NONICKNAMEGIVEN;
-        return response;
-    }
-    if (m_Model->isNickNameInUse(t_request.m_content))
-    {
-        response.m_status = ERR_NICKNAMEINUSE;
+        response.m_status = ERR_NEEDMOREPARAMS;
+        response.m_content = "Not enough parameters";
         return response;
     }
     Client *client = m_Model->getClient(t_fd);
 
-    client->setNickname(t_request.m_content);
     if (client->getStatus() > CONNECTED1)
     {
         response.m_status = ERR_ALREADYREGISTRED;

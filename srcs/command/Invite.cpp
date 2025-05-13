@@ -1,91 +1,67 @@
-// #include "Invite.hpp"
+#include "Invite.hpp"
+#include "../Model/Model.hpp"
 
-// #include "../Model/Model.hpp"
+Invite::Invite()
+{
+    DEBUG_LOG();
+}
+Invite::Invite(Model *t_model) : ACommandBase(t_model)
+{
+    DEBUG_LOG();
+}
+Invite::~Invite()
+{
+    DEBUG_LOG();
+}
 
-// Invite::Invite()
-// {
-//     DEBUG_LOG();
-// }
-// Invite::~Invite()
-// {
-//     DEBUG_LOG();
-// }
+RequestBody Invite::parse(const std::string &t_line)
+{
+    DEBUG_LOG();
+    std::istringstream iss(t_line);
+    RequestBody request;
+    iss >> request.m_command;        // JOIN
+    iss >> request.m_target_channel; // channel_name
+    iss >> request.m_target_nickname;
+    return request;
+}
 
-// ResponseBody Invite::start(int t_fd, const std::string &t_line)
-// {
-//     DEBUG_LOG();
-//     ResponseBody response;
-//     response.m_command = "INVITE";
-//     if (m_Model->getClient(m_request.m_fd) == NULL)
-//     {
-//         response.m_status = ERR_NOSUCHNICK;
-//         return response;
-//     }
-//     parse(m_request.m_fd, t_line);
-//     response = run();
-//     return response;
-// }
+ResponseBody Invite::run(int t_fd, RequestBody t_request)
+{
+    DEBUG_LOG();
+    ResponseBody response;
+    response.m_command = "INVITE";
+    if (t_request.m_target_nickname.empty() || t_request.m_target_channel.empty())
+    {
+        response.m_status = ERR_NEEDMOREPARAMS;
+        response.m_content = "Not enough parameters";
+        return response;
+    }
 
-// void Invite::parse(int t_fd, const std::string &t_buffer)
-// {
-//     DEBUG_LOG();
-//     m_request.m_fd = t_fd;
-//     std::istringstream iss(t_buffer);
-//     std::string command;
-//     iss >> command;                     // INVITE
-//     iss >> m_request.m_target_nickname; // target_nick
-//     iss >> m_request.m_channel;         // channel_name
-// }
+    Client *target = m_Model->getClient(t_request.m_target_nickname);
+    Channel *ch = m_Model->getChannel(t_request.m_target_channel);
 
-// ResponseBody Invite::run()
-// {
-//     DEBUG_LOG();
-//     ResponseBody response;
-//     response.m_command = "INVITE";
-//     if (m_Model->getClient(m_request.m_fd) == NULL)
-//     {
-//         response.m_status = ERR_NOSUCHNICK;
-//         return response;
-//     }
+    if (target == NULL)
+    {
+        response.m_status = ERR_NOSUCHNICK;
+        response.m_content = "No such nickname";
+        return response;
+    }
+    if (ch == NULL)
+    {
+        response.m_status = ERR_NOSUCHCHANNEL;
+        response.m_content = "No such channel";
+        return response;
+    }
+    if (m_Model->isClientOnChannel(target->getFd(), ch->getId()))
+    {
+        response.m_status = RPL_TOPIC;
+        response.m_content = "You are already on that channel";
+        return response;
+    }
 
-//     if (m_request.m_channel.empty())
-//     {
-//         response.m_status = ERR_NEEDMOREPARAMS;
-//         return response;
-//     }
-//     if (m_Model->getChannel(id_hash(m_request.m_channel)) == NULL)
-//     {
-//         response.m_status = ERR_NOSUCHCHANNEL;
-
-//         return response;
-//     }
-//     {
-//         response.m_status = 401;
-//         return response;
-//     }
-
-//     if (m_Model->getClient(m_request.m_fd)->getStatus() < AUTHENTICATED)
-//     {
-//         response.m_status = 451;
-//         return response;
-//     }
-//     // if (m_Model->getClient(m_request.m_fd)->isOperator(channel_name) == false)
-//     // {
-//     //     response.m_status = 482;
-//     //     return response;
-//     // }
-
-//     // if (m_Model->getClient(target_nick)->isInChannel(channel_name))
-//     // {
-//     //     response.m_status = 443;
-//     //     return response;
-//     // 443     ERR_USERONCHANNEL
-//     //                     "<user> <channel> :is already on channel"
-
-//     //             - Returned when a client tries to invite a user to a
-//     //               channel they are already on.
-//     // }
-
-//     m_Model->addHub(m_Model->getClient(m_request.m_fd)->getFd(), id_hash(m_request.m_channel), INVITED);
-//     return response;
-// }
+    m_Model->addHub(t_request.m_fd, ch->getId(), INVITED);
+    response.m_status = RPL_TOPIC;
+    response.m_content = "You have been invited to " + t_request.m_target_channel;
+    this->broadcast(t_fd, ch->getId(), "user invited");
+    return response;
+}
