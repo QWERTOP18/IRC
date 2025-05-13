@@ -45,6 +45,8 @@ std::string Controller::readRequest(int fd)
 void Controller::sendResponse(int fd, const ResponseBody &response)
 {
     DEBUG_LOG();
+    if (response.m_status == NO_REPLY)
+        return;
     std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
     send(fd, message.c_str(), message.size(), 0);
 }

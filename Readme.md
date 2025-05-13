@@ -79,7 +79,3 @@ Error Message は名前空間で区切ってすべてヘッダーに書く
 流れを補足すると
 Server がポーリングしていて（ClientList を継承した Poll クラスの責務）、Client からのインプットがあったら Parser にわたし、改行があれば Command のポインタが返ってくるので、Serverが発火。
 Commandは、種類によってClient, Channelクラスのメソッドを使用する。例えばKickだったらChannelクラスのKickメソッド->ChannelのClientListからClientを削除
-
-```
-
-```

@@ -19,6 +19,7 @@ ResponseBody Nick::run(int t_fd, RequestBody t_request)
     if (t_request.m_content.empty())
     {
         response.m_status = ERR_NONICKNAMEGIVEN;
+        response.m_content = "No NickName was given";
         return response;
     }
     if (m_Model->isNickNameInUse(t_request.m_content))
@@ -27,9 +28,17 @@ ResponseBody Nick::run(int t_fd, RequestBody t_request)
         return response;
     }
     Client *client = m_Model->getClient(t_fd);
-    client->setNickname(t_request.m_content);
 
-    LOG("Client " + std::to_string(t_fd) + " changed nickname to " + t_request.m_content);
+    client->setNickname(t_request.m_content);
+    if (client->getStatus() == CONNECTED1)
+    {
+        client->setStatus(AUTHENTICATED_NICK3);
+        response.m_status = RPL_WELCOME;
+        // :server 001 <nick> :Welcome to the <network> Network, <nick>[!<user>@<host>]
+        response.m_content = "Welcome to the  Network, " + client->getNickname();
+    }
+
+    LOG("Client " + std::to_string(t_fd) + "  is now known as " + t_request.m_content);
 
     return response;
 }
