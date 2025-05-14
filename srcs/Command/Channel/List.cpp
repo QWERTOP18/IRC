@@ -16,6 +16,7 @@ List::~List()
 ResponseBody List::run(int t_fd, RequestBody t_request)
 {
     DEBUG_FUNC();
+    (void)t_fd;
     ResponseBody response;
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);
     if (ch == NULL)

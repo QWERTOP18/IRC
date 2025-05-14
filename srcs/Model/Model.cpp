@@ -130,7 +130,8 @@ void Model::removeClient(int t_fd)
         if (it->second->getClientId() == t_fd)
         {
             delete it->second;
-            it = m_Hub.erase(it);
+            std::map<ID, ClientChannelHub *>::iterator to_erase = it++;
+            m_Hub.erase(to_erase);
         }
         else
             ++it;
@@ -148,7 +149,8 @@ void Model::removeChannel(int t_id)
         if (it->second->getChannelId() == t_id)
         {
             delete it->second;
-            it = m_Hub.erase(it);
+            std::map<ID, ClientChannelHub *>::iterator to_erase = it++;
+            m_Hub.erase(to_erase);
         }
         else
             ++it;
@@ -164,7 +166,8 @@ void Model::removeHub(int t_client_id, int t_channel_id)
         if (it->second->getClientId() == t_client_id && it->second->getChannelId() == t_channel_id)
         {
             delete it->second;
-            it = m_Hub.erase(it);
+            std::map<ID, ClientChannelHub *>::iterator to_erase = it++;
+            m_Hub.erase(to_erase);
         }
         else
             ++it;

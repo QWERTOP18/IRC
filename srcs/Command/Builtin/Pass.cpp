@@ -28,7 +28,7 @@ ResponseBody Pass::run(int t_fd, RequestBody t_request)
     }
     client->setStatus(AUTHENTICATED2);
 
-    LOG("Client " + std::to_string(t_fd) + " authenticated");
+    LOG("Client " + to_string(t_fd) + " authenticated");
 
     return ResponseBody(NO_REPLY);
 }
@@ -44,5 +44,6 @@ RequestBody Pass::parse(const std::string &t_line)
     {
         request.m_status = ERR_NEEDMOREPARAMS;
     }
+    
     return request;
 }

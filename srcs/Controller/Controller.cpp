@@ -24,6 +24,11 @@ Controller::~Controller()
     {
         delete it->second;
     }
+    for (std::map<std::string, ABuiltin *>::iterator it = m_Builtin.begin(); it != m_Builtin.end(); ++it)
+    {
+        delete it->second;
+    }
+    m_Builtin.clear();
     m_Command.clear();
 }
 

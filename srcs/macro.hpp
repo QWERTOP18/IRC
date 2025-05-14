@@ -6,7 +6,7 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 06:12:34 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/07 20:51:48 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/15 06:52:44 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <vector>
+#include <string.h>
+#include <typeinfo>
 
 #include "./DTO/Error.hpp"
 #include "./DTO/RequestBody.hpp"
