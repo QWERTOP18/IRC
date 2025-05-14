@@ -21,6 +21,7 @@ private:
     std::string m_topic;
     std::string m_key;
     int m_limit;
+    int m_mode;
 
 public:
     Channel(const std::string &name);
@@ -28,7 +29,7 @@ public:
     ID getId() const { return m_id; }
     const std::string &getName() const { return m_name; }
     const std::string &getTopic() const { return m_topic; }
-
+    int getMode() const { return m_mode; }
     void setTopic(const std::string &topic) { m_topic = topic; }
     void setKey(const std::string &key) { m_key = key; }
     void setLimit(int limit) { m_limit = limit; }

@@ -17,13 +17,15 @@ ResponseBody List::run(int t_fd, RequestBody t_request)
 {
     DEBUG_FUNC();
     ResponseBody response;
-    Channel *channel = m_Model->getChannel(t_request.m_target_channel);
-    if (channel == NULL)
+    Channel *ch = m_Model->getChannel(t_request.m_target_channel);
+    if (ch == NULL)
     {
         return ResponseBody(ERR_NOSUCHCHANNEL, "No such channel");
     }
     response.m_status = RPL_LIST;
     response.m_content = to_string(m_Model->countClientsInChannel(t_request.m_target_channel));
+    response.m_content += " :" + ch->getTopic();
+    response.m_content += " :" + to_string(ch->getMode());
 
     return response;
 }

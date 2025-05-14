@@ -38,5 +38,9 @@ RequestBody Who::parse(const std::string &t_line)
     std::istringstream iss(t_line);
     iss >> request.m_command;         // WHO
     iss >> request.m_target_nickname; // target_channel
+    if (request.m_target_nickname.empty())
+    {
+        request.m_status = ERR_NEEDMOREPARAMS;
+    }
     return request;
 }

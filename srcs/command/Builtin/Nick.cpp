@@ -18,15 +18,11 @@ ResponseBody Nick::run(int t_fd, RequestBody t_request)
     ResponseBody response;
     if (t_request.m_content.empty())
     {
-        response.m_status = ERR_NONICKNAMEGIVEN;
-        response.m_content = "No NickName was given";
-        return response;
+        return ResponseBody(ERR_NONICKNAMEGIVEN, "No NickName was given");
     }
     if (m_Model->isNickNameInUse(t_request.m_content))
     {
-        response.m_status = ERR_NICKNAMEINUSE;
-        response.m_content = "Nickname is already in use";
-        return response;
+        return ResponseBody(ERR_NICKNAMEINUSE, "Nickname is already in use");
     }
     Client *client = m_Model->getClient(t_fd);
 
