@@ -2,7 +2,7 @@
 
 std::string Controller::getCmdName(const std::string &t_buffer)
 {
-    DEBUG_LOG();
+    // DEBUG_FUNC();
     std::istringstream iss(t_buffer);
     std::string command;
     iss >> command;
@@ -11,7 +11,7 @@ std::string Controller::getCmdName(const std::string &t_buffer)
 
 ACommandBase *Controller::getCmdBase(const std::string &t_line)
 {
-    DEBUG_LOG();
+    // DEBUG_FUNC();
     std::string cmdName = getCmdName(t_line);
     if (m_Command.find(cmdName) != m_Command.end())
         return m_Command[cmdName];
@@ -22,7 +22,7 @@ ACommandBase *Controller::getCmdBase(const std::string &t_line)
 
 std::string Controller::readRequest(int fd)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     std::string &buffer = m_Model->getClient(fd)->getBuffer();
     char buf[1024];
     ssize_t bytesRead = recv(fd, buf, sizeof(buf) - 1, 0);
@@ -44,7 +44,7 @@ std::string Controller::readRequest(int fd)
 
 void Controller::sendResponse(int fd, const ResponseBody &response)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     if (response.m_status == NO_REPLY)
         return;
     std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";

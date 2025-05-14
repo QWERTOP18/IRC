@@ -1,12 +1,13 @@
 #pragma once
-#include "ACommand.hpp"
+#include "../ABuiltin.hpp"
 
-class Kick : public ACommand
+class Pass : public ABuiltin
 {
+
 public:
-    Kick();
-    Kick(Model *t_model);
-    ~Kick();
+    Pass();
+    Pass(Model *t_model);
+    ~Pass();
 
     ResponseBody run(int t_fd, RequestBody t_request);
     RequestBody parse(const std::string &t_line);

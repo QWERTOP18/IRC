@@ -1,17 +1,16 @@
 #include "Quit.hpp"
-#include "../Model/Model.hpp"
 
 Quit::Quit()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Quit::Quit(Model *t_model) : ACommandBase(t_model)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Quit::~Quit()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 
 // Numeric Replies:
@@ -21,7 +20,7 @@ Quit::~Quit()
 
 ResponseBody Quit::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     ResponseBody response;
     (void)t_request;
 
@@ -32,6 +31,7 @@ ResponseBody Quit::run(int t_fd, RequestBody t_request)
     }
 
     m_Model->removeClient(t_fd);
+    response.m_status = NO_REPLY;
     LOG("Client disconnected: " + to_string(t_fd) + "QUIT :Gone to have lunch");
 
     return response;
@@ -39,7 +39,7 @@ ResponseBody Quit::run(int t_fd, RequestBody t_request)
 
 RequestBody Quit::parse(const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     RequestBody request;
     std::istringstream iss(t_line);
     iss >> request.m_command; // QUIT

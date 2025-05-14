@@ -4,6 +4,8 @@
 class RequestBody : public IBody
 {
 public:
-     RequestBody() : IBody() {};
+    RequestBody() : IBody() {};
+    RequestBody(int t_status) : IBody() { m_status = t_status; };
+
     ~RequestBody() {};
 };

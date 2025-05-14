@@ -3,7 +3,6 @@
 #include "Client.hpp"
 #include "Channel.hpp"
 #include "ClientChannelHub.hpp"
-#include "../Command/ACommand.hpp"
 
 #include <poll.h>
 #include <map>
@@ -14,6 +13,7 @@ class Model
 private:
     std::map<ID, Client *> m_Client;
     std::map<ID, Channel *> m_Channel;
+
     std::map<ID, ClientChannelHub *> m_Hub;
     std::string m_password;
 
@@ -31,12 +31,14 @@ public:
     Client *getClient(const std::string &t_nick) const;
     Channel *getChannel(int t_id) const;
     Channel *getChannel(const std::string &t_name) const;
-    int getChannelSize(const std::string &t_name) const;
+    int countClientsInChannel(const std::string &t_name) const;
     int getClientSize() const { return m_Client.size(); }
     int getChannelSize() const { return m_Channel.size(); }
+    int getHubSize() const { return m_Hub.size(); }
     const std::string &getPassword() const { return m_password; }
 
     bool isClientOnChannel(int t_client_id, int t_channel_id) const;
+
     bool isNickNameInUse(const std::string &t_nickname) const;
     bool isChannelNameInUse(const std::string &t_channel_name) const;
 

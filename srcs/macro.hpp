@@ -56,8 +56,10 @@ typedef int ID;
 // デバッグ用ログマクロ
 /* ************************************************************************** */
 #ifdef DEBUG
-#define DEBUG_LOG(msg) std::cerr << CYAN << "[ DEBUG ] " << std::string(typeid(*this).name()) + "->" + __func__ << RESET << std::endl
+#define DEBUG_FUNC() std::cerr << CYAN << "[ DEBUG ] " << std::string(typeid(*this).name()) + "->" + __func__ << RESET << std::endl
+#define DEBUG_LOG(msg) std::cerr << CYAN << "[ DEBUG ] " << std::string(typeid(*this).name()) + "->" + __func__ << RESET << " " << msg << std::endl
 #else
+#define DEBUG_FUNC() ((void)0)
 #define DEBUG_LOG(msg) ((void)0)
 #endif
 

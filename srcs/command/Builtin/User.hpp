@@ -1,12 +1,13 @@
 #pragma once
-#include "ACommand.hpp"
+#include "../ABuiltin.hpp"
 
-class PrivMsg : public ACommand
+class User : public ABuiltin
 {
+
 public:
-    PrivMsg();
-    PrivMsg(Model *t_model);
-    ~PrivMsg();
+    User();
+    User(Model *t_model);
+    ~User();
 
     ResponseBody run(int t_fd, RequestBody t_request);
     RequestBody parse(const std::string &t_line);

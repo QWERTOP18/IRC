@@ -1,33 +1,37 @@
 #include "Part.hpp"
-#include "../Model/Model.hpp"
 
 Part::Part()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Part::Part(Model *t_model) : ACommandBase(t_model)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Part::~Part()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 
 RequestBody Part::parse(const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     std::istringstream iss(t_line);
     RequestBody request;
     iss >> request.m_command;        // Part
     iss >> request.m_target_channel; // channel_name
     iss >> request.m_content;        // message
+
+    if (request.m_target_channel.empty())
+    {
+        request.m_status = ERR_NEEDMOREPARAMS;
+    }
     return request;
 }
 
 ResponseBody Part::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     ResponseBody response;
     response.m_command = "PART";
 
@@ -47,7 +51,8 @@ ResponseBody Part::run(int t_fd, RequestBody t_request)
 
     m_Model->removeHub(t_fd, ch->getId());
     response.m_status = RPL_TOPIC;
-    // response.m_content = "No topic is set";
+    response.m_content = "You have left " + t_request.m_target_channel;
+
     this->broadcast(t_fd, ch->getId(), "user left");
     LOG("user left channel: " + t_request.m_target_channel);
 

@@ -61,7 +61,7 @@ TEST_F(ModelTest, AddChannel_Success)
     ASSERT_NE(channel, nullptr);
     EXPECT_EQ(channel->getName(), "test_channel");
     EXPECT_EQ(model->getChannelSize(), 1);
-    EXPECT_EQ(model->getChannelSize("test_channel"), 0);
+    EXPECT_EQ(model->countClientsInChannel("test_channel"), 0);
 }
 
 TEST_F(ModelTest, GetChannel_NonExistent)
@@ -73,7 +73,7 @@ TEST_F(ModelTest, GetChannel_NonExistent)
 
 TEST_F(ModelTest, GetChannelSize_NonExistent)
 {
-    EXPECT_EQ(model->getChannelSize("non_existent_channel"), 0);
+    EXPECT_EQ(model->countClientsInChannel("non_existent_channel"), 0);
 }
 
 TEST_F(ModelTest, AddMultipleChannels)
@@ -90,7 +90,7 @@ TEST_F(ModelTest, AddHub_Success)
     model->addClient(1);
     model->addChannel("test_channel");
     model->addHub(1, id_hash("test_channel"), ADMIN);
-    EXPECT_EQ(model->getChannelSize("test_channel"), 1);
+    EXPECT_EQ(model->countClientsInChannel("test_channel"), 1);
 }
 
 TEST_F(ModelTest, AddHub_MultipleClients)
@@ -102,21 +102,22 @@ TEST_F(ModelTest, AddHub_MultipleClients)
     model->addHub(1, id_hash("test_channel"), ADMIN);
     model->addHub(2, id_hash("test_channel"), MEMBER);
 
-    EXPECT_EQ(model->getChannelSize("test_channel"), 2);
+    EXPECT_EQ(model->countClientsInChannel("test_channel"), 2);
+    // EXPECT_EQ(model->getH
 }
 
 TEST_F(ModelTest, AddHub_NonExistentClient)
 {
     model->addChannel("test_channel");
     model->addHub(999, id_hash("test_channel"), ADMIN);
-    EXPECT_EQ(model->getChannelSize("test_channel"), 1);
+    EXPECT_EQ(model->countClientsInChannel("test_channel"), 1);
 }
 
 TEST_F(ModelTest, AddHub_NonExistentChannel)
 {
     model->addClient(1);
     model->addHub(1, 999, ADMIN);
-    EXPECT_EQ(model->getChannelSize("non_existent"), 0);
+    EXPECT_EQ(model->countClientsInChannel("non_existent"), 0);
 }
 
 // Pollfd tests
@@ -148,7 +149,7 @@ TEST_F(ModelTest, RemoveClient_ClearsHubs)
     model->addHub(1, id_hash("test_channel"), ADMIN);
 
     model->removeClient(1);
-    EXPECT_EQ(model->getChannelSize("test_channel"), 0);
+    EXPECT_EQ(model->countClientsInChannel("test_channel"), 0);
     EXPECT_EQ(model->getClientSize(), 0);
 }
 
@@ -159,7 +160,7 @@ TEST_F(ModelTest, RemoveChannel_ClearsHubs)
     model->addHub(1, id_hash("test_channel"), ADMIN);
 
     model->removeChannel(id_hash("test_channel"));
-    EXPECT_EQ(model->getChannelSize("test_channel"), 0);
+    EXPECT_EQ(model->countClientsInChannel("test_channel"), 0);
     EXPECT_EQ(model->getChannelSize(), 0);
 }
 
@@ -186,8 +187,8 @@ TEST_F(ModelTest, ComplexScenario_MultipleChannelsAndClients)
     // Verify sizes
     EXPECT_EQ(model->getClientSize(), 3);
     EXPECT_EQ(model->getChannelSize(), 2);
-    EXPECT_EQ(model->getChannelSize("channel1"), 3);
-    EXPECT_EQ(model->getChannelSize("channel2"), 2);
+    EXPECT_EQ(model->countClientsInChannel("channel1"), 3);
+    EXPECT_EQ(model->countClientsInChannel("channel2"), 2);
 
     // Verify pollfds
     std::vector<pollfd> pollfds = model->getPollfds();
@@ -196,13 +197,13 @@ TEST_F(ModelTest, ComplexScenario_MultipleChannelsAndClients)
     // Remove a client and verify cleanup
     model->removeClient(1);
     EXPECT_EQ(model->getClientSize(), 2);
-    EXPECT_EQ(model->getChannelSize("channel1"), 2);
-    EXPECT_EQ(model->getChannelSize("channel2"), 1);
+    EXPECT_EQ(model->countClientsInChannel("channel1"), 2);
+    EXPECT_EQ(model->countClientsInChannel("channel2"), 1);
 
     // Remove a channel and verify cleanup
     model->removeChannel(id_hash("channel1"));
     EXPECT_EQ(model->getChannelSize(), 1);
-    EXPECT_EQ(model->getChannelSize("channel1"), 0);
+    EXPECT_EQ(model->countClientsInChannel("channel1"), 0);
 }
 
 // テストをグループ化するための名前空間
@@ -234,7 +235,7 @@ namespace ModelChannelTests
         ASSERT_NE(channel, nullptr);
         EXPECT_EQ(channel->getName(), "test_channel");
         EXPECT_EQ(model->getChannelSize(), 1);
-        EXPECT_EQ(model->getChannelSize("test_channel"), 0);
+        EXPECT_EQ(model->countClientsInChannel("test_channel"), 0);
     }
 
     TEST_F(ModelTest, GetChannel_NonExistent)

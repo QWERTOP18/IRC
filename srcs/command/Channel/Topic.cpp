@@ -1,33 +1,37 @@
 #include "Topic.hpp"
-#include "../Model/Model.hpp"
 
 Topic::Topic()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Topic::Topic(Model *t_model) : ACommandBase(t_model)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Topic::~Topic()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 
 RequestBody Topic::parse(const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     std::istringstream iss(t_line);
     RequestBody request;
     iss >> request.m_command;        // Topic
     iss >> request.m_target_channel; // channel_name
     iss >> request.m_content;        // topic
+
+    if (request.m_target_channel.empty())
+    {
+        request.m_status = ERR_NEEDMOREPARAMS;
+    }
     return request;
 }
 
 ResponseBody Topic::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     ResponseBody response;
     response.m_command = "TOPIC";
 
