@@ -1,21 +1,21 @@
 #include "Who.hpp"
-#include "../Model/Model.hpp"
+
 Who::Who()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Who::Who(Model *t_model) : ACommandBase(t_model)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Who::~Who()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 
 ResponseBody Who::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     ResponseBody response;
     Client *target_client = m_Model->getClient(t_request.m_target_nickname);
     if (target_client == NULL)
@@ -33,7 +33,7 @@ ResponseBody Who::run(int t_fd, RequestBody t_request)
 
 RequestBody Who::parse(const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     RequestBody request;
     std::istringstream iss(t_line);
     iss >> request.m_command;         // WHO

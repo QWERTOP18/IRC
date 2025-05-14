@@ -1,20 +1,20 @@
 #include "Pass.hpp"
-#include "../Model/Model.hpp"
+
 Pass::Pass()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Pass::Pass(Model *t_model) : ACommandBase(t_model)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Pass::~Pass()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 ResponseBody Pass::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     ResponseBody response;
     if (t_request.m_content.empty())
     {
@@ -46,7 +46,7 @@ ResponseBody Pass::run(int t_fd, RequestBody t_request)
 
 RequestBody Pass::parse(const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     RequestBody request;
     std::istringstream iss(t_line);
     iss >> request.m_command; // Pass

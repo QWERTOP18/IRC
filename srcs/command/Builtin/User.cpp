@@ -1,20 +1,20 @@
 #include "User.hpp"
-#include "../Model/Model.hpp"
+
 User::User()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 User::User(Model *t_model) : ACommandBase(t_model)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 User::~User()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 ResponseBody User::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     Client *cl = m_Model->getClient(t_fd);
 
     cl->setUsername(t_request.m_content);
@@ -29,7 +29,7 @@ ResponseBody User::run(int t_fd, RequestBody t_request)
 
 RequestBody User::parse(const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     RequestBody request;
     std::istringstream iss(t_line);
     iss >> request.m_command; // NICK

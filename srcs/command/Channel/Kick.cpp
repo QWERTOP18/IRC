@@ -1,42 +1,40 @@
 #include "Kick.hpp"
-#include "../Model/Model.hpp"
 
 Kick::Kick()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Kick::Kick(Model *t_model) : ACommandBase(t_model)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Kick::~Kick()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 
 RequestBody Kick::parse(const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     std::istringstream iss(t_line);
     RequestBody request;
     iss >> request.m_command;        // KICK
     iss >> request.m_target_channel; // channel_name
     iss >> request.m_target_nickname;
     iss >> request.m_content; // reason
+
+    if (request.m_target_nickname.empty() || request.m_target_channel.empty())
+    {
+        request.m_status = ERR_NEEDMOREPARAMS;
+    }
     return request;
 }
 
 ResponseBody Kick::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     ResponseBody response;
     response.m_command = "Kick";
-    if (t_request.m_target_nickname.empty() || t_request.m_target_channel.empty())
-    {
-        response.m_status = ERR_NEEDMOREPARAMS;
-        response.m_content = "Not enough parameters";
-        return response;
-    }
 
     Client *target = m_Model->getClient(t_request.m_target_nickname);
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);

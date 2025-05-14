@@ -15,6 +15,7 @@ Controller::Controller(Model *model) : m_Model(model)
     m_Command["KICK"] = new Kick(model);
     m_Command["INVITE"] = new Invite(model);
     m_Command["WHO"] = new Who(model);
+    m_Command["LIST"] = new List(model);
 }
 
 Controller::~Controller()
@@ -38,7 +39,7 @@ void Controller::removeClient(int fd)
 
 void Controller::handleRequest(int t_fd)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     std::string line = readRequest(t_fd);
     if (line.empty())
         return;

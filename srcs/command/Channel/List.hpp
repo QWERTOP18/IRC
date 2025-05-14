@@ -1,12 +1,12 @@
 #pragma once
-#include "ACommand.hpp"
+#include "../ACommand.hpp"
 
-class PrivMsg : public ACommand
+class List : public ACommand
 {
 public:
-    PrivMsg();
-    PrivMsg(Model *t_model);
-    ~PrivMsg();
+    List();
+    List(Model *t_model);
+    ~List();
 
     ResponseBody run(int t_fd, RequestBody t_request);
     RequestBody parse(const std::string &t_line);

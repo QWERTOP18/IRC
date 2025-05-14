@@ -1,5 +1,6 @@
 #pragma once
 #include "ACommandBase.hpp"
+#include "../Model/Model.hpp"
 
 class ABuiltin : virtual public ACommandBase
 {

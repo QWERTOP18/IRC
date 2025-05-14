@@ -26,17 +26,17 @@ Server::Server(const std::string &t_port, const std::string &t_password, Model *
 Server::Server()
     : m_Model(NULL), m_Controller(NULL)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 
 Server::~Server()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 
 void Server::start()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     LOG("Server started on port" + to_string(m_port));
 
     while (1)
@@ -52,7 +52,7 @@ void Server::start()
 // ✨shotern this method
 void Server::poll()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     std::vector<pollfd> pollfds = m_Model->getPollfds();
     pollfds.push_back(m_pollfd);
     if (::poll(pollfds.data(), pollfds.size(), -1) == -1)

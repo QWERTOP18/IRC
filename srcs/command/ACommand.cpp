@@ -3,7 +3,7 @@
 
 ResponseBody ACommand::start(int t_fd, const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     ResponseBody response;
     RequestBody request;
 
@@ -17,6 +17,10 @@ ResponseBody ACommand::start(int t_fd, const std::string &t_line)
     }
 
     request = parse(t_line);
+    if (request.m_status == ERR_NEEDMOREPARAMS)
+    {
+        return ResponseBody(ERR_NEEDMOREPARAMS, "Not enough parameters");
+    }
     response = run(t_fd, request);
     return response;
 }

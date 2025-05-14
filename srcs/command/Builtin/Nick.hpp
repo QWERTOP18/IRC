@@ -1,5 +1,5 @@
 #pragma once
-#include "ABuiltin.hpp"
+#include "../ABuiltin.hpp"
 
 class Nick : public ABuiltin
 {

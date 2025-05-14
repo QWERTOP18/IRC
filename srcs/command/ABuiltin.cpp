@@ -1,10 +1,8 @@
 #include "ABuiltin.hpp"
 
-#include "../Model/Model.hpp"
-
 ResponseBody ABuiltin::start(int t_fd, const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     RequestBody request;
 
     request = parse(t_line);

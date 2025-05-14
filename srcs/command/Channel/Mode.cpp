@@ -1,34 +1,38 @@
 #include "Mode.hpp"
-#include "../Model/Model.hpp"
 
 Mode::Mode()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Mode::Mode(Model *t_model) : ACommandBase(t_model)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 Mode::~Mode()
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
 }
 
 RequestBody Mode::parse(const std::string &t_line)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     std::istringstream iss(t_line);
     RequestBody request;
     iss >> request.m_command;        // Mode
     iss >> request.m_target_channel; // channel_name
     iss >> request.m_content;        // + or -　char
     iss >> request.m_content;        // limit
+
+    if (request.m_target_channel.empty() || request.m_content.empty())
+    {
+        request.m_status = ERR_NEEDMOREPARAMS;
+    }
     return request;
 }
 
 ResponseBody Mode::run(int t_fd, RequestBody t_request)
 {
-    DEBUG_LOG();
+    DEBUG_FUNC();
     ResponseBody response;
     response.m_command = "Mode";
     if (t_request.m_target_channel.empty() || t_request.m_content.empty())

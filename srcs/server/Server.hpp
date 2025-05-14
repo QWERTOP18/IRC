@@ -19,7 +19,6 @@
 #include <netinet/in.h>
 #include <poll.h>
 
-#include "../Model/Model.hpp"
 #include "../Controller/Controller.hpp"
 
 class Server
