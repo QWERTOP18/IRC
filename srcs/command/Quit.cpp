@@ -32,6 +32,7 @@ ResponseBody Quit::run(int t_fd, RequestBody t_request)
     }
 
     m_Model->removeClient(t_fd);
+    response.m_status = NO_REPLY;
     LOG("Client disconnected: " + to_string(t_fd) + "QUIT :Gone to have lunch");
 
     return response;

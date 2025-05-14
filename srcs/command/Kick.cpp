@@ -19,7 +19,7 @@ RequestBody Kick::parse(const std::string &t_line)
     DEBUG_LOG();
     std::istringstream iss(t_line);
     RequestBody request;
-    iss >> request.m_command;        // JOIN
+    iss >> request.m_command;        // KICK
     iss >> request.m_target_channel; // channel_name
     iss >> request.m_target_nickname;
     iss >> request.m_content; // reason

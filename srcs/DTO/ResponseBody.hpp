@@ -6,5 +6,6 @@ class ResponseBody : public virtual IBody
 private:
 public:
     std::string m_hostname;
-    int m_status;
+
+    ResponseBody(int t_status = 0, const std::string &t_command = "", const std::string &t_content = "");
 };

@@ -1,8 +1,9 @@
 #pragma once
-#include "ACommand.hpp"
+#include "ABuiltin.hpp"
 
-class User : public ACommand
+class User : public ABuiltin
 {
+
 public:
     User();
     User(Model *t_model);

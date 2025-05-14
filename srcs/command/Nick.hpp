@@ -1,8 +1,9 @@
 #pragma once
-#include "ACommand.hpp"
+#include "ABuiltin.hpp"
 
-class Nick : public ACommand
+class Nick : public ABuiltin
 {
+
 public:
     Nick();
     Nick(Model *t_model);
