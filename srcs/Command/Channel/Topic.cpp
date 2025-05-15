@@ -36,15 +36,13 @@ ResponseBody Topic::run(int t_fd, RequestBody t_request)
     response.m_command = "TOPIC";
 
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);
-    if (ch == NULL)
+
+    if (ch->getMode().b_topic)
     {
-        response.m_status = ERR_NOSUCHCHANNEL;
-        return response;
-    }
-    if (!m_Model->isClientOnChannel(t_fd, ch->getId()))
-    {
-        response.m_status = ERR_NOTONCHANNEL;
-        return response;
+        if (m_Model->getRole(t_fd, ch->getId()) != ADMIN)
+        {
+            return ResponseBody(ERR_CHANOPRIVSNEEDED, "You are not a channel operator");
+        }
     }
 
     if (t_request.m_content.empty())

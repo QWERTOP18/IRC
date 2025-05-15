@@ -34,8 +34,6 @@ ResponseBody Join::run(int t_fd, RequestBody t_request)
     ResponseBody response;
     response.m_command = "JOIN";
 
-    // invited onlyの処理など
-
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);
     if (ch != NULL)
     {
@@ -48,6 +46,21 @@ ResponseBody Join::run(int t_fd, RequestBody t_request)
                 return ResponseBody(RPL_TOPIC, "You are now on channel " + t_request.m_target_channel);
             }
             return ResponseBody(ERR_USERONCHANNEL, "You are already on that channel");
+        }
+
+        // invited onlyの処理など
+        if (ch->getMode().b_invite && m_Model->getRole(t_fd, ch->getId()) != INVITED)
+        {
+            return ResponseBody(ERR_INVITEONLYCHAN, "Join", "You are not invited to that channel");
+        }
+        if (ch->getMode().b_limit && m_Model->countClientsInChannel(ch->getName()) >= ch->getMode().b_limit)
+        {
+            return ResponseBody(ERR_CHANNELISFULL, "Join", "Channel is full");
+        }
+
+        if (!ch->getMode().b_key.empty() && ch->getMode().b_key != t_request.m_content)
+        {
+            return ResponseBody(ERR_BADCHANNELKEY, "Join", "Bad channel key");
         }
 
         m_Model->addHub(t_fd, ch->getId(), MEMBER);
