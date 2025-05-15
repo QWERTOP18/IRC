@@ -16,12 +16,12 @@ Who::~Who()
 ResponseBody Who::run(int t_fd, RequestBody t_request)
 {
     DEBUG_FUNC();
+    (void)t_fd;
     ResponseBody response;
     Client *target_client = m_Model->getClient(t_request.m_target_nickname);
     if (target_client == NULL)
     {
         response.m_status = RPL_ENDOFWHO;
-        response.m_fd = t_fd; // ✨update prefix
         response.m_content = "List all users who match against   \"" + t_request.m_target_nickname + "\".";
         return response;
     }

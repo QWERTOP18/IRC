@@ -44,15 +44,15 @@ ResponseBody Invite::run(int t_fd, RequestBody t_request)
 
     if (target == NULL)
     {
-        return ResponseBody(ERR_NOSUCHNICK, "No such nickname");
+        return ResponseBody(ERR_NOSUCHNICK, "Kick", "No such nickname");
     }
 
     if (m_Model->isClientOnChannel(target->getFd(), ch->getId()))
     {
-        return ResponseBody(ERR_USERONCHANNEL, "is already on channel");
+        return ResponseBody(ERR_USERONCHANNEL, "Kick", "is already on channel");
     }
 
-    m_Model->addHub(t_fd, ch->getId(), INVITED);
+    m_Model->addHub(target->getFd(), ch->getId(), INVITED);
     response.m_status = RPL_TOPIC;
     response.m_content = "You have been invited to " + t_request.m_target_channel;
     this->broadcast(t_fd, ch->getId(), "user invited");

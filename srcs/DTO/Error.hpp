@@ -14,7 +14,6 @@ namespace Err
         static const char *UPPERCASE_MISSING = "Password must include uppercase";
     }
 
-    // exception Classにしてもいいかも
     namespace Socket
     {
         static const char *OPEN_FAIL = "failed to open socket";
