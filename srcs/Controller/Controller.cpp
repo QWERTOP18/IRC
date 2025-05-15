@@ -6,6 +6,7 @@ Controller::Controller(Model *model) : m_Model(model)
     m_ClientCommand["PASS"] = new Pass(model);
     m_ClientCommand["NICK"] = new Nick(model);
     m_ClientCommand["USER"] = new User(model);
+    m_ClientCommand["JOKE"] = new JokeBot();
 
     m_Command["JOIN"] = new Join(model);
     m_Command["WHO"] = new Who(model);

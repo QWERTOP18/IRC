@@ -17,6 +17,7 @@
 #include "../Command/Client/Nick.hpp"
 #include "../Command/Client/User.hpp"
 #include "../Command/Client/Quit.hpp"
+#include "../Command/Client/JokeBot.hpp"
 
 #include <map>
 #include "../Command/Client/AClientCommand.hpp"
