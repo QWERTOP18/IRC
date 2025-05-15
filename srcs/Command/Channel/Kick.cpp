@@ -48,14 +48,14 @@ ResponseBody Kick::run(int t_fd, RequestBody t_request)
     {
         return ResponseBody(ERR_NOSUCHNICK, "Kick", "No such nickname");
     }
-    if (m_Model->isClientOnChannel(target->getFd(), ch->getId()))
+    if (!m_Model->isClientOnChannel(target->getFd(), ch->getId()))
     {
         return ResponseBody(ERR_NOTONCHANNEL, "Kick", "is not on channel");
     }
 
-    m_Model->removeHub(t_request.m_fd, ch->getId());
     response.m_status = RPL_TOPIC;
+    this->broadcast(t_fd, ch->getId(), "user Kicked");
     response.m_content = "You have been Kickd to " + t_request.m_target_channel + t_request.m_content;
-    this->broadcast(t_fd, ch->getId(), "user Kickd");
+    m_Model->removeHub(target->getFd(), ch->getId());
     return response;
 }

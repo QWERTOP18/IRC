@@ -6,7 +6,7 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:41:12 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/15 08:20:48 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/15 09:28:08 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ public:
     ID getId() const { return m_id; }
     const std::string &getName() const { return m_name; }
     const std::string &getTopic() const { return m_topic; }
+    const std::string &getKey() const { return m_key; }
+    int getLimit() const { return m_limit; }
     MODE getMode() const { return m_mode; }
     void setTopic(const std::string &topic) { m_topic = topic; }
     void setKey(const std::string &key) { m_key = key; }
