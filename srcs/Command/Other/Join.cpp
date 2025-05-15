@@ -49,15 +49,16 @@ ResponseBody Join::run(int t_fd, RequestBody t_request)
         }
 
         // invited onlyの処理など
-        if (ch->getMode().b_invite && m_Model->getRole(t_fd, ch->getId()) == INVITED)
+        if (ch->getMode().b_invite && m_Model->getRole(t_fd, ch->getId()) != INVITED)
         {
             return ResponseBody(ERR_INVITEONLYCHAN, "Join", "You are not invited to that channel");
         }
-        if (ch->getMode().b_limit && m_Model->countClientsInChannel(ch->getName()) >= ch->getLimit())
+        if (ch->getMode().b_limit && m_Model->countClientsInChannel(ch->getName()) >= ch->getMode().b_limit)
         {
             return ResponseBody(ERR_CHANNELISFULL, "Join", "Channel is full");
         }
-        if (ch->getMode().b_key && ch->getKey() != t_request.m_content)
+
+        if (!ch->getMode().b_key.empty() && ch->getMode().b_key != t_request.m_content)
         {
             return ResponseBody(ERR_BADCHANNELKEY, "Join", "Bad channel key");
         }

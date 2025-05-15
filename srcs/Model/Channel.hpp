@@ -6,7 +6,7 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:41:12 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/15 09:28:08 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:41:13 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ struct MODE
     // bool b_private;
     // bool b_secret;
     bool b_topic;
-    bool b_key;
-    bool b_limit;
+    std::string b_key;
+    int b_limit;
 };
 
 class Channel
@@ -55,6 +55,11 @@ public:
     void setTopic(const std::string &topic) { m_topic = topic; }
     void setKey(const std::string &key) { m_key = key; }
     void setLimit(int limit) { m_limit = limit; }
+
+    void setInvite(bool invite) { m_mode.b_invite = invite; }
+    void setTopic(bool topic) { m_mode.b_topic = topic; }
+    // void setKey(bool key) { m_mode.b_key = key; }
+    // void setLimit(bool limit) { m_mode.b_limit = limit; }
 
 private:
 };

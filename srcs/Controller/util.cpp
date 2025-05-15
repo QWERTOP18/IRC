@@ -28,10 +28,13 @@ std::string Controller::readRequest(int fd)
     std::string &buffer = m_Model->getClient(fd)->getBuffer();
     char buf[1024];
     ssize_t bytesRead = recv(fd, buf, sizeof(buf) - 1, 0);
-    // if (bytesRead <= 0 && (errno != EWOULDBLOCK))
-    // {
-    //     return; 👍throwする
-    // }
+    // linux
+    if (bytesRead <= 0)
+    {
+        m_Model->removeClient(fd);
+        LOG("Client " + to_string(fd) + " disconnected");
+        return "";
+    }
     buf[bytesRead] = '\0';
     buffer += buf;
 

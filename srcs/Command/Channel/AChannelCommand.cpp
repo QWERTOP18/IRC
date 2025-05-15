@@ -20,6 +20,10 @@ ResponseBody AChannelCommand::start(int t_fd, const std::string &t_line)
     {
         return ResponseBody(ERR_NEEDMOREPARAMS, "Not enough parameters");
     }
+    if (request.m_status == ERR_UNKNOWNMODE)
+    {
+        return ResponseBody(ERR_UNKNOWNMODE, "Unknown mode");
+    }
     Channel *ch = m_Model->getChannel(request.m_target_channel);
     if (ch == NULL)
     {
