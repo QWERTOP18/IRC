@@ -35,6 +35,8 @@ public:
     int getClientSize() const { return m_Client.size(); }
     int getChannelSize() const { return m_Channel.size(); }
     int getHubSize() const { return m_Hub.size(); }
+
+    Role getRole(int t_client_id, int t_channel_id) const;
     const std::string &getPassword() const { return m_password; }
 
     bool isClientOnChannel(int t_client_id, int t_channel_id) const;
@@ -44,6 +46,7 @@ public:
 
     // Setters
     void setPassword(const std::string &t_password) { m_password = t_password; }
+    void setRole(int t_client_id, int t_channel_id, Role t_role);
 
     // Add operations
     void addClient(int t_fd);

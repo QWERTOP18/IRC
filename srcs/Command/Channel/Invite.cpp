@@ -41,10 +41,7 @@ ResponseBody Invite::run(int t_fd, RequestBody t_request)
     {
         return ResponseBody(ERR_NOSUCHNICK, "No such nickname");
     }
-    if (ch == NULL)
-    {
-        return ResponseBody(ERR_NOSUCHCHANNEL, "No such channel");
-    }
+
     if (m_Model->isClientOnChannel(target->getFd(), ch->getId()))
     {
         return ResponseBody(ERR_USERONCHANNEL, "is already on channel");
@@ -54,5 +51,6 @@ ResponseBody Invite::run(int t_fd, RequestBody t_request)
     response.m_status = RPL_TOPIC;
     response.m_content = "You have been invited to " + t_request.m_target_channel;
     this->broadcast(t_fd, ch->getId(), "user invited");
+    this->sendToClient(t_fd, target->getFd(), "You have been invited to " + t_request.m_target_channel);
     return response;
 }

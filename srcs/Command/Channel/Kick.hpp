@@ -1,7 +1,7 @@
 #pragma once
-#include "../ACommand.hpp"
+#include "AChannelCommand.hpp"
 
-class Kick : public ACommand
+class Kick : public AChannelCommand
 {
 public:
     Kick();

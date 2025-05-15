@@ -1,7 +1,7 @@
 #pragma once
-#include "../ACommand.hpp"
+#include "AChannelCommand.hpp"
 
-class Mode : public ACommand
+class Mode : public AChannelCommand
 {
 public:
     Mode();

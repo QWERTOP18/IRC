@@ -6,7 +6,7 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 06:12:34 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/15 06:52:44 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/15 07:50:18 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,23 +97,3 @@ inline ID id_hash2(ID id1, ID id2)
 {
     return (id1 * 31 + id2) % 1000000007;
 }
-
-enum Role
-{
-    NONE,
-    ADMIN,
-    MEMBER,
-    INVITED,
-    BANNED
-};
-
-enum State
-{
-    DISCONNECTED,
-    CONNECTED1,
-    AUTHENTICATED2,
-    AUTHENTICATED_NICK3,
-    REGISTERED
-    // AUTHENTICATING,
-    // AUTHENTICATED_USER,
-};

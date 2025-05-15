@@ -3,27 +3,32 @@
 #include "macro.hpp"
 // #include "Parser.hpp"
 
-#include "../Command/Channel/Join.hpp"
 #include "../Command/Channel/Part.hpp"
 #include "../Command/Channel/Topic.hpp"
 #include "../Command/Channel/Mode.hpp"
 #include "../Command/Channel/Invite.hpp"
-#include "../Command/Channel/List.hpp"
 #include "../Command/Channel/Kick.hpp"
+
+#include "../Command/Other/Join.hpp"
 #include "../Command/Other/PrivMsg.hpp"
 #include "../Command/Other/Who.hpp"
-#include "../Command/Builtin/Pass.hpp"
-#include "../Command/Builtin/Nick.hpp"
-#include "../Command/Builtin/User.hpp"
-#include "../Command/Builtin/Quit.hpp"
+
+#include "../Command/Client/Pass.hpp"
+#include "../Command/Client/Nick.hpp"
+#include "../Command/Client/User.hpp"
+#include "../Command/Client/Quit.hpp"
 
 #include <map>
-#include "../Command/ACommand.hpp"
+#include "../Command/Client/AClientCommand.hpp"
+#include "../Command/Channel/AChannelCommand.hpp"
+#include "../Command/Other/ACommand.hpp"
+#include "../Command/ACommandBase.hpp"
 class Controller
 {
 private:
     std::map<std::string, ACommand *> m_Command;
-    std::map<std::string, ABuiltin *> m_Builtin;
+    std::map<std::string, AClientCommand *> m_ClientCommand;
+    std::map<std::string, AChannelCommand *> m_ChannelCommand;
 
     Model *m_Model;
     std::string getCmdName(const std::string &buffer);

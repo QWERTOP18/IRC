@@ -34,11 +34,19 @@ ResponseBody Join::run(int t_fd, RequestBody t_request)
     ResponseBody response;
     response.m_command = "JOIN";
 
+    // invited onlyの処理など
+
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);
     if (ch != NULL)
     {
         if (m_Model->isClientOnChannel(t_fd, ch->getId()))
         {
+            if (m_Model->getRole(t_fd, ch->getId()) == INVITED)
+            {
+                m_Model->setRole(t_fd, ch->getId(), MEMBER);
+                this->broadcast(t_fd, ch->getId(), "user joined");
+                return ResponseBody(RPL_TOPIC, "You are now on channel " + t_request.m_target_channel);
+            }
             return ResponseBody(ERR_USERONCHANNEL, "You are already on that channel");
         }
 
@@ -51,7 +59,6 @@ ResponseBody Join::run(int t_fd, RequestBody t_request)
     m_Model->addChannel(t_request.m_target_channel);
     ch = m_Model->getChannel(t_request.m_target_channel);
 
-    this->broadcast(t_fd, ch->getId(), "user joined");
     LOG("channel created: " + t_request.m_target_channel);
     response.m_status = RPL_TOPIC; // ✨update
     response.m_content = "You are now on channel " + t_request.m_target_channel;

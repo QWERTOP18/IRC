@@ -1,7 +1,7 @@
 #pragma once
-#include "../ACommand.hpp"
+#include "AChannelCommand.hpp"
 
-class Invite : public ACommand
+class Invite : public AChannelCommand
 {
 public:
     Invite();
