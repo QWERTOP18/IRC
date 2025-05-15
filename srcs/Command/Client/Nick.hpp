@@ -1,7 +1,7 @@
 #pragma once
-#include "../ABuiltin.hpp"
+#include "AClientCommand.hpp"
 
-class Nick : public ABuiltin
+class Nick : public AClientCommand
 {
 
 public:

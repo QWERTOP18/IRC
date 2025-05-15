@@ -49,11 +49,11 @@ ResponseBody Part::run(int t_fd, RequestBody t_request)
         return response;
     }
 
+    this->broadcast(t_fd, ch->getId(), "user left");
     m_Model->removeHub(t_fd, ch->getId());
     response.m_status = RPL_TOPIC;
     response.m_content = "You have left " + t_request.m_target_channel;
 
-    this->broadcast(t_fd, ch->getId(), "user left");
     LOG("user left channel: " + t_request.m_target_channel);
 
     return response;

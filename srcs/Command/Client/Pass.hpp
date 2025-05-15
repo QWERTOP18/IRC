@@ -1,12 +1,13 @@
 #pragma once
-#include "../ACommand.hpp"
+#include "AClientCommand.hpp"
 
-class List : public ACommand
+class Pass : public AClientCommand
 {
+
 public:
-    List();
-    List(Model *t_model);
-    ~List();
+    Pass();
+    Pass(Model *t_model);
+    ~Pass();
 
     ResponseBody run(int t_fd, RequestBody t_request);
     RequestBody parse(const std::string &t_line);

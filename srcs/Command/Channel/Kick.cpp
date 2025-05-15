@@ -39,28 +39,23 @@ ResponseBody Kick::run(int t_fd, RequestBody t_request)
     Client *target = m_Model->getClient(t_request.m_target_nickname);
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);
 
-    if (target == NULL)
+    if (m_Model->getRole(t_fd, ch->getId()) != ADMIN)
     {
-        response.m_status = ERR_NOSUCHNICK;
-        response.m_content = "No such nickname";
-        return response;
-    }
-    if (ch == NULL)
-    {
-        response.m_status = ERR_NOSUCHCHANNEL;
-        response.m_content = "No such channel";
-        return response;
-    }
-    if (m_Model->isClientOnChannel(t_fd, ch->getId()))
-    {
-        response.m_status = RPL_TOPIC;
-        response.m_content = "You are already on that channel";
-        return response;
+        return ResponseBody(ERR_CHANOPRIVSNEEDED, "Kick", "You are not a channel operator");
     }
 
-    // m_Model->addHub(t_request.m_fd, ch->getId(), );
+    if (target == NULL)
+    {
+        return ResponseBody(ERR_NOSUCHNICK, "Kick", "No such nickname");
+    }
+    if (m_Model->isClientOnChannel(target->getFd(), ch->getId()))
+    {
+        return ResponseBody(ERR_NOTONCHANNEL, "Kick", "is not on channel");
+    }
+
+    m_Model->removeHub(t_request.m_fd, ch->getId());
     response.m_status = RPL_TOPIC;
-    response.m_content = "You have been Kickd to " + t_request.m_target_channel;
+    response.m_content = "You have been Kickd to " + t_request.m_target_channel + t_request.m_content;
     this->broadcast(t_fd, ch->getId(), "user Kickd");
     return response;
 }

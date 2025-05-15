@@ -16,6 +16,10 @@ ResponseBody User::run(int t_fd, RequestBody t_request)
 {
     DEBUG_FUNC();
     Client *cl = m_Model->getClient(t_fd);
+    if (cl->getStatus() < AUTHENTICATED_NICK3)
+    {
+        return ResponseBody(ERR_NONICKNAMEGIVEN, "USER", "No NickName was given");
+    }
 
     cl->setUsername(t_request.m_content);
     cl->setRealname(t_request.m_content);
@@ -23,7 +27,7 @@ ResponseBody User::run(int t_fd, RequestBody t_request)
 
     cl->setStatus(REGISTERED);
 
-    LOG("Client " + std::to_string(t_fd) + "  is now known as " + t_request.m_content);
+    LOG("Client " + to_string(t_fd) + "  is now registered " + t_request.m_content);
     return ResponseBody(NO_REPLY);
 }
 

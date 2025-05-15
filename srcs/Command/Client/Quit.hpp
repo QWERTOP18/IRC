@@ -1,13 +1,12 @@
 #pragma once
-#include "../ABuiltin.hpp"
+#include "AClientCommand.hpp"
 
-class Pass : public ABuiltin
+class Quit : public AClientCommand
 {
-
 public:
-    Pass();
-    Pass(Model *t_model);
-    ~Pass();
+    Quit();
+    Quit(Model *t_model);
+    ~Quit();
 
     ResponseBody run(int t_fd, RequestBody t_request);
     RequestBody parse(const std::string &t_line);

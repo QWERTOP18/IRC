@@ -6,12 +6,23 @@
 /*   By: ymizukam <ymizukam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:40:30 by ymizukam          #+#    #+#             */
-/*   Updated: 2025/05/07 07:51:10 by ymizukam         ###   ########.fr       */
+/*   Updated: 2025/05/15 07:50:13 by ymizukam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include "macro.hpp"
+
+enum State
+{
+    DISCONNECTED,
+    CONNECTED1,
+    AUTHENTICATED2,
+    AUTHENTICATED_NICK3,
+    REGISTERED
+    // AUTHENTICATING,
+    // AUTHENTICATED_USER,
+};
 
 class Client
 {

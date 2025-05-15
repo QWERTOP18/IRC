@@ -68,6 +68,7 @@
     "mutex": "cpp",
     "ratio": "cpp",
     "variant": "cpp",
-    "__hash_table": "cpp"
+    "__hash_table": "cpp",
+    "cinttypes": "cpp"
   }
 }

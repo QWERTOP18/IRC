@@ -77,6 +77,16 @@ Channel *Model::getChannel(const std::string &t_name) const
     return NULL;
 }
 
+Role Model::getRole(int t_client_id, int t_channel_id) const
+{
+    for (std::map<ID, ClientChannelHub *>::const_iterator it = m_Hub.begin(); it != m_Hub.end(); ++it)
+    {
+        if (it->second->getClientId() == t_client_id && it->second->getChannelId() == t_channel_id)
+            return it->second->getRole();
+    }
+    return NONE;
+}
+
 int Model::countClientsInChannel(const std::string &t_name) const
 {
     DEBUG_FUNC();
@@ -130,7 +140,8 @@ void Model::removeClient(int t_fd)
         if (it->second->getClientId() == t_fd)
         {
             delete it->second;
-            it = m_Hub.erase(it);
+            std::map<ID, ClientChannelHub *>::iterator to_erase = it++;
+            m_Hub.erase(to_erase);
         }
         else
             ++it;
@@ -148,7 +159,8 @@ void Model::removeChannel(int t_id)
         if (it->second->getChannelId() == t_id)
         {
             delete it->second;
-            it = m_Hub.erase(it);
+            std::map<ID, ClientChannelHub *>::iterator to_erase = it++;
+            m_Hub.erase(to_erase);
         }
         else
             ++it;
@@ -164,7 +176,8 @@ void Model::removeHub(int t_client_id, int t_channel_id)
         if (it->second->getClientId() == t_client_id && it->second->getChannelId() == t_channel_id)
         {
             delete it->second;
-            it = m_Hub.erase(it);
+            std::map<ID, ClientChannelHub *>::iterator to_erase = it++;
+            m_Hub.erase(to_erase);
         }
         else
             ++it;
@@ -188,4 +201,17 @@ bool Model::isChannelNameInUse(const std::string &t_channel_name) const
             return true;
     }
     return false;
+}
+
+void Model::setRole(int t_client_id, int t_channel_id, Role t_role)
+{
+    DEBUG_FUNC();
+    for (std::map<ID, ClientChannelHub *>::iterator it = m_Hub.begin(); it != m_Hub.end(); ++it)
+    {
+        if (it->second->getClientId() == t_client_id && it->second->getChannelId() == t_channel_id)
+        {
+            it->second->setRole(t_role);
+            return;
+        }
+    }
 }

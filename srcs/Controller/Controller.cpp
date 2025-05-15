@@ -2,20 +2,20 @@
 
 Controller::Controller(Model *model) : m_Model(model)
 {
-    m_Builtin["QUIT"] = new Quit(model);
-    m_Builtin["PASS"] = new Pass(model);
-    m_Builtin["NICK"] = new Nick(model);
-    m_Builtin["USER"] = new User(model);
+    m_ClientCommand["QUIT"] = new Quit(model);
+    m_ClientCommand["PASS"] = new Pass(model);
+    m_ClientCommand["NICK"] = new Nick(model);
+    m_ClientCommand["USER"] = new User(model);
 
     m_Command["JOIN"] = new Join(model);
-    m_Command["PART"] = new Part(model);
-    m_Command["PRIVMSG"] = new PrivMsg(model);
-    m_Command["MODE"] = new Mode(model);
-    m_Command["TOPIC"] = new Topic(model);
-    m_Command["KICK"] = new Kick(model);
-    m_Command["INVITE"] = new Invite(model);
     m_Command["WHO"] = new Who(model);
-    m_Command["LIST"] = new List(model);
+    m_Command["PRIVMSG"] = new PrivMsg(model);
+
+    m_ChannelCommand["PART"] = new Part(model);
+    m_ChannelCommand["MODE"] = new Mode(model);
+    m_ChannelCommand["TOPIC"] = new Topic(model);
+    m_ChannelCommand["KICK"] = new Kick(model);
+    m_ChannelCommand["INVITE"] = new Invite(model);
 }
 
 Controller::~Controller()
@@ -24,6 +24,17 @@ Controller::~Controller()
     {
         delete it->second;
     }
+    for (std::map<std::string, AClientCommand *>::iterator it = m_ClientCommand.begin(); it != m_ClientCommand.end(); ++it)
+    {
+        delete it->second;
+    }
+    for (std::map<std::string, AChannelCommand *>::iterator it = m_ChannelCommand.begin(); it != m_ChannelCommand.end(); ++it)
+    {
+        delete it->second;
+    }
+
+    m_ClientCommand.clear();
+    m_ChannelCommand.clear();
     m_Command.clear();
 }
 
@@ -49,14 +60,20 @@ void Controller::handleRequest(int t_fd)
         LOG("Command not found: " + line);
         return;
     }
-    // Quitなどの出力を返さないコマンドはBuiltinとして処理
-    if (ABuiltin *cmd = dynamic_cast<ABuiltin *>(cmdBase))
+
+    if (AClientCommand *cmd = dynamic_cast<AClientCommand *>(cmdBase))
     {
         ResponseBody response = cmd->start(t_fd, line);
         sendResponse(t_fd, response);
         return;
     }
     if (ACommand *cmd = dynamic_cast<ACommand *>(cmdBase))
+    {
+        ResponseBody response = cmd->start(t_fd, line);
+        sendResponse(t_fd, response);
+        return;
+    }
+    if (AChannelCommand *cmd = dynamic_cast<AChannelCommand *>(cmdBase))
     {
         ResponseBody response = cmd->start(t_fd, line);
         sendResponse(t_fd, response);

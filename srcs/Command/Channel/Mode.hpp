@@ -1,12 +1,12 @@
 #pragma once
-#include "../ACommand.hpp"
+#include "AChannelCommand.hpp"
 
-class Kick : public ACommand
+class Mode : public AChannelCommand
 {
 public:
-    Kick();
-    Kick(Model *t_model);
-    ~Kick();
+    Mode();
+    Mode(Model *t_model);
+    ~Mode();
 
     ResponseBody run(int t_fd, RequestBody t_request);
     RequestBody parse(const std::string &t_line);

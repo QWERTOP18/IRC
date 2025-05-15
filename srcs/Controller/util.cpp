@@ -15,8 +15,10 @@ ACommandBase *Controller::getCmdBase(const std::string &t_line)
     std::string cmdName = getCmdName(t_line);
     if (m_Command.find(cmdName) != m_Command.end())
         return m_Command[cmdName];
-    if (m_Builtin.find(cmdName) != m_Builtin.end())
-        return m_Builtin[cmdName];
+    if (m_ClientCommand.find(cmdName) != m_ClientCommand.end())
+        return m_ClientCommand[cmdName];
+    if (m_ChannelCommand.find(cmdName) != m_ChannelCommand.end())
+        return m_ChannelCommand[cmdName];
     return NULL;
 }
 
