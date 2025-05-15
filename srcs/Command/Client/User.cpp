@@ -40,5 +40,6 @@ RequestBody User::parse(const std::string &t_line)
     iss >> request.m_content;
     iss >> request.m_content;
     iss >> request.m_content;
+    // realnameなども取れたほうが嬉しいかもしれない
     return request;
 }

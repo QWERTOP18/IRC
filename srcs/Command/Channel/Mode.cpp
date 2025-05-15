@@ -26,6 +26,7 @@ RequestBody Mode::parse(const std::string &t_line)
     if (request.m_target_channel.empty() || request.m_content.empty())
     {
         request.m_status = ERR_NEEDMOREPARAMS;
+        return request;
     }
     if (request.m_content[0] != '+' && request.m_content[0] != '-')
     {
@@ -35,7 +36,7 @@ RequestBody Mode::parse(const std::string &t_line)
     {
         request.m_status = ERR_UNKNOWNMODE;
     }
-    if (request.m_content[1] == 'l' || request.m_content[1] == 'k' || request.m_content[1] == 'o')
+    if (request.m_content == "+l" || request.m_content == "+k" || request.m_content[1] == 'o')
     {
         if (request.m_content2.empty())
         {
@@ -55,6 +56,11 @@ ResponseBody Mode::run(int t_fd, RequestBody t_request)
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);
 
     bool b = (t_request.m_content[0] == '+') ? true : false;
+
+    if (m_Model->getRole(t_fd, ch->getId()) != ADMIN)
+    {
+        return ResponseBody(ERR_CHANOPRIVSNEEDED, "Mode", "You are not a channel operator");
+    }
 
     if (t_request.m_content[1] == 'i')
     {
