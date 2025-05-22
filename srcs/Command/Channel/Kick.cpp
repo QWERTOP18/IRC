@@ -56,6 +56,10 @@ ResponseBody Kick::run(int t_fd, RequestBody t_request)
     response.m_status = RPL_TOPIC;
     this->broadcast(t_fd, ch->getId(), "user Kicked");
     response.m_content = "You have been Kickd to " + t_request.m_target_channel + t_request.m_content;
+    if (!t_request.m_content.empty())
+    {
+        response.m_content += " : " + t_request.m_content;
+    }
     m_Model->removeHub(target->getFd(), ch->getId());
     return response;
 }
