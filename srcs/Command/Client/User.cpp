@@ -22,13 +22,13 @@ ResponseBody User::run(int t_fd, RequestBody t_request)
     }
 
     cl->setUsername(t_request.m_content);
-    cl->setRealname(t_request.m_content);
-    cl->setHostname(t_request.m_content);
+    cl->setRealname(t_request.m_content2);
+    cl->setHostname("localhost");
 
     cl->setStatus(REGISTERED);
 
     LOG("Client " + to_string(t_fd) + "  is now registered " + t_request.m_content);
-    return ResponseBody(NO_REPLY);
+    return ResponseBody(RPL_WELCOME, "USER", cl->getClientInfo());
 }
 
 RequestBody User::parse(const std::string &t_line)
@@ -38,8 +38,8 @@ RequestBody User::parse(const std::string &t_line)
     std::istringstream iss(t_line);
     iss >> request.m_command; // NICK
     iss >> request.m_content;
-    iss >> request.m_content;
-    iss >> request.m_content;
+    iss >> request.m_content2;
+    // iss >> request.m_content;
     // realnameなども取れたほうが嬉しいかもしれない
     return request;
 }
