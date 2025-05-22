@@ -11,6 +11,7 @@ Controller::Controller(Model *model) : m_Model(model)
     m_Command["JOIN"] = new Join(model);
     m_Command["WHO"] = new Who(model);
     m_Command["PRIVMSG"] = new PrivMsg(model);
+    m_Command["NOTICE"] = new Notice(model);
 
     m_ChannelCommand["PART"] = new Part(model);
     m_ChannelCommand["MODE"] = new Mode(model);

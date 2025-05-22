@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++98 -Wall -Wextra -Werror -Isrcs --pedantic
 TEST_CXXFLAGS = -std=c++17 -Wall -Wextra -Isrcs -I/opt/homebrew/include -pthread
 TEST_LDFLAGS = -L/opt/homebrew/lib -lgtest -lgtest_main -pthread
 
-NAME = IRC
+NAME = ircserv
 TEST_NAME = test_irc
 
 SRC = $(shell find srcs -name "*.cpp")

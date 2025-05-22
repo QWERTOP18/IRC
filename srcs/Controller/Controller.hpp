@@ -10,6 +10,7 @@
 #include "../Command/Channel/Kick.hpp"
 
 #include "../Command/Other/Join.hpp"
+#include "../Command/Other/Notice.hpp"
 #include "../Command/Other/PrivMsg.hpp"
 #include "../Command/Other/Who.hpp"
 
