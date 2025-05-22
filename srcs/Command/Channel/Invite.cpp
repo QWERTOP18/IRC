@@ -39,17 +39,17 @@ ResponseBody Invite::run(int t_fd, RequestBody t_request)
 
     if (m_Model->getRole(t_fd, ch->getId()) != ADMIN)
     {
-        return ResponseBody(ERR_CHANOPRIVSNEEDED, "Kick", "You are not a channel operator");
+        return ResponseBody(ERR_CHANOPRIVSNEEDED, "Invite", "You are not a channel operator");
     }
 
     if (target == NULL)
     {
-        return ResponseBody(ERR_NOSUCHNICK, "Kick", "No such nickname");
+        return ResponseBody(ERR_NOSUCHNICK, "Invite", "No such nickname");
     }
 
     if (m_Model->isClientOnChannel(target->getFd(), ch->getId()))
     {
-        return ResponseBody(ERR_USERONCHANNEL, "Kick", "is already on channel");
+        return ResponseBody(ERR_USERONCHANNEL, "Invite", "is already on channel");
     }
 
     m_Model->addHub(target->getFd(), ch->getId(), INVITED);
