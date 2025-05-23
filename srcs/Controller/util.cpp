@@ -49,14 +49,14 @@ std::string Controller::readRequest(int fd)
     std::string message;
 
     char buffer[100];
-    bzero(buffer, 100);
+    memset(buffer, 0, 100);
 
     while (!strstr(buffer, "\n"))
     {
-        bzero(buffer, 100);
+        memset(buffer, 0, 100);
 
         if ((recv(fd, buffer, 100, 0) < 0) and (errno != EWOULDBLOCK))
-            throw std::runtime_error("Error while reading buffer from a client!");
+            throw std::runtime_error(Err::Recv::FAILED);
 
         message.append(buffer);
     }
@@ -67,11 +67,14 @@ std::string Controller::readRequest(int fd)
 void Controller::sendResponse(int fd, const ResponseBody &response)
 {
     DEBUG_FUNC();
+    std::string message;
     if (response.m_status == NO_REPLY)
         return;
+    if (response.m_status == RPL_NONE)
+        message = response.m_content + "\r\n";
     // std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
-    std::string message =
-        ":" + m_Model->getServerName() + " " + zero_pad3(response.m_status) + " :" + response.m_content + "\r\n";
+    else
+        message = ":" + m_Model->getClient(fd)->getClientInfo() + " " + zero_pad3(response.m_status) + " :" + response.m_content + "\r\n";
 
     DEBUG_LOG("Sending: " + message);
     send(fd, message.c_str(), message.size(), 0);

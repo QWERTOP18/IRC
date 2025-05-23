@@ -17,6 +17,10 @@ ResponseBody Ping::run(int t_fd, RequestBody t_request)
 {
     DEBUG_FUNC();
     Client *client = m_Model->getClient(t_fd);
+    if (client == NULL)
+    {
+        return ResponseBody(ERR_NOSUCHNICK, t_request.m_content, "No such nick");
+    }
 
     return ResponseBody(RPL_NONE, "PONG", t_request.m_content);
 }
