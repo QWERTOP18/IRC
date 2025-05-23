@@ -25,6 +25,10 @@ RequestBody Join::parse(const std::string &t_line)
     {
         request.m_status = ERR_NEEDMOREPARAMS;
     }
+    if (request.m_target_channel[0] != '#')
+    {
+        request.m_target_channel = "#" + request.m_target_channel;
+    }
     return request;
 }
 

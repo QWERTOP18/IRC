@@ -25,33 +25,57 @@ ACommandBase *Controller::getCmdBase(const std::string &t_line)
 std::string Controller::readRequest(int fd)
 {
     DEBUG_FUNC();
-    std::string &buffer = m_Model->getClient(fd)->getBuffer();
-    char buf[1024];
-    ssize_t bytesRead = recv(fd, buf, sizeof(buf) - 1, 0);
-    // linux
-    if (bytesRead <= 0)
+    // std::string &buffer = m_Model->getClient(fd)->getBuffer();
+    // char buf[1024];
+    // ssize_t bytesRead = recv(fd, buf, sizeof(buf) - 1, 0);
+    // // linux
+    // if (bytesRead <= 0)
+    // {
+    //     m_Model->removeClient(fd);
+    //     LOG("Client " + to_string(fd) + " disconnected");
+    //     return "";
+    // }
+    // buf[bytesRead] = '\0';
+    // buffer += buf;
+
+    // std::cout << "buffer: " << buffer << std::endl;
+    // if (buffer.find("\n") == std::string::npos)
+    //     return "";
+    // DEBUG_LOG("Received: " + buffer);
+
+    // std::string line = buffer.substr(0, buffer.find("\n"));
+    // buffer.erase(0, buffer.find("\n") + 1);
+    // return line;
+    std::string message;
+
+    char buffer[100];
+    memset(buffer, 0, 100);
+
+    while (!strstr(buffer, "\n"))
     {
-        m_Model->removeClient(fd);
-        LOG("Client " + to_string(fd) + " disconnected");
-        return "";
+        memset(buffer, 0, 100);
+
+        if ((recv(fd, buffer, 100, 0) < 0) and (errno != EWOULDBLOCK))
+            throw std::runtime_error(Err::Recv::FAILED);
+
+        message.append(buffer);
     }
-    buf[bytesRead] = '\0';
-    buffer += buf;
-
-    if (buffer.find("\n") == std::string::npos)
-        return "";
-    DEBUG_LOG("Received: " + buffer);
-
-    std::string line = buffer.substr(0, buffer.find("\n"));
-    buffer.erase(0, buffer.find("\n") + 1);
-    return line;
+    std::cout << "message: " << message << std::endl;
+    return message;
 }
 
 void Controller::sendResponse(int fd, const ResponseBody &response)
 {
     DEBUG_FUNC();
+    std::string message;
     if (response.m_status == NO_REPLY)
         return;
-    std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
+    if (response.m_status == RPL_NONE)
+        message = response.m_content + "\r\n";
+    // std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
+    else
+        message = ":" + m_Model->getClient(fd)->getClientInfo() + " " + zero_pad3(response.m_status) + " :" + response.m_content + "\r\n";
+
+    DEBUG_LOG("Sending: " + message);
     send(fd, message.c_str(), message.size(), 0);
 }

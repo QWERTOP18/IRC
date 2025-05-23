@@ -8,6 +8,8 @@
 #include "../Command/Channel/Mode.hpp"
 #include "../Command/Channel/Invite.hpp"
 #include "../Command/Channel/Kick.hpp"
+#include "../Command/Client/Ping.hpp"
+#include "../Command/Client/Pong.hpp"
 
 #include "../Command/Other/Join.hpp"
 #include "../Command/Other/Notice.hpp"
@@ -20,7 +22,6 @@
 #include "../Command/Client/Quit.hpp"
 #include "../Command/Client/JokeBot.hpp"
 
-#include <map>
 #include "../Command/Client/AClientCommand.hpp"
 #include "../Command/Channel/AChannelCommand.hpp"
 #include "../Command/Other/ACommand.hpp"

@@ -32,5 +32,8 @@ namespace Err
         static const char *SEND_FAIL = "failed to send data to client";
         static const char *RECV_FAIL = "failed to receive data from client";
     }
-
+    namespace Recv
+    {
+        static const char *FAILED = "failed to read from socket";
+    }
 }

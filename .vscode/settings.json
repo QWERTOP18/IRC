@@ -69,6 +69,7 @@
     "ratio": "cpp",
     "variant": "cpp",
     "__hash_table": "cpp",
-    "cinttypes": "cpp"
+    "cinttypes": "cpp",
+    "iomanip": "cpp"
   }
 }

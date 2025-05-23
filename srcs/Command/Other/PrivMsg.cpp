@@ -24,7 +24,7 @@ RequestBody PrivMsg::parse(const std::string &t_line)
     iss >> request.m_target_nickname; // nick_name
     if (request.m_target_nickname[0] == '#')
     {
-        request.m_target_channel = request.m_target_nickname.substr(1);
+        request.m_target_channel = request.m_target_nickname;
     }
     iss >> request.m_content; // message
     if (request.m_target_nickname.empty() || request.m_content.empty())
