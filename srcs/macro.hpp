@@ -21,6 +21,7 @@
 #include <vector>
 #include <string.h>
 #include <typeinfo>
+#include <iomanip>
 
 #include "./DTO/Error.hpp"
 #include "./DTO/RequestBody.hpp"
@@ -80,6 +81,13 @@ static inline std::string to_string(int value)
 {
     std::ostringstream oss;
     oss << value;
+    return oss.str();
+}
+
+static inline std::string zero_pad3(int num)
+{
+    std::ostringstream oss;
+    oss << std::setw(3) << std::setfill('0') << num;
     return oss.str();
 }
 

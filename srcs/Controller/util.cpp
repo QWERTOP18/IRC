@@ -25,20 +25,20 @@ ACommandBase *Controller::getCmdBase(const std::string &t_line)
 std::string Controller::readRequest(int fd)
 {
     DEBUG_FUNC();
-    std::string &buffer = m_Model->getClient(fd)->getBuffer();
-    char buf[1024];
-    ssize_t bytesRead = recv(fd, buf, sizeof(buf) - 1, 0);
-    // linux
-    if (bytesRead <= 0)
-    {
-        m_Model->removeClient(fd);
-        LOG("Client " + to_string(fd) + " disconnected");
-        return "";
-    }
-    buf[bytesRead] = '\0';
-    buffer += buf;
+    // std::string &buffer = m_Model->getClient(fd)->getBuffer();
+    // char buf[1024];
+    // ssize_t bytesRead = recv(fd, buf, sizeof(buf) - 1, 0);
+    // // linux
+    // if (bytesRead <= 0)
+    // {
+    //     m_Model->removeClient(fd);
+    //     LOG("Client " + to_string(fd) + " disconnected");
+    //     return "";
+    // }
+    // buf[bytesRead] = '\0';
+    // buffer += buf;
 
-    return buffer;
+    // std::cout << "buffer: " << buffer << std::endl;
     // if (buffer.find("\n") == std::string::npos)
     //     return "";
     // DEBUG_LOG("Received: " + buffer);
@@ -46,6 +46,22 @@ std::string Controller::readRequest(int fd)
     // std::string line = buffer.substr(0, buffer.find("\n"));
     // buffer.erase(0, buffer.find("\n") + 1);
     // return line;
+    std::string message;
+
+    char buffer[100];
+    bzero(buffer, 100);
+
+    while (!strstr(buffer, "\n"))
+    {
+        bzero(buffer, 100);
+
+        if ((recv(fd, buffer, 100, 0) < 0) and (errno != EWOULDBLOCK))
+            throw std::runtime_error("Error while reading buffer from a client!");
+
+        message.append(buffer);
+    }
+    std::cout << "message: " << message << std::endl;
+    return message;
 }
 
 void Controller::sendResponse(int fd, const ResponseBody &response)
@@ -55,7 +71,7 @@ void Controller::sendResponse(int fd, const ResponseBody &response)
         return;
     // std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
     std::string message =
-        ":" + m_Model->getServerName() + " " + std::to_string(response.m_status) + " " + response.m_content + "\r\n";
+        ":" + m_Model->getServerName() + " " + zero_pad3(response.m_status) + " :" + response.m_content + "\r\n";
 
     DEBUG_LOG("Sending: " + message);
     send(fd, message.c_str(), message.size(), 0);
