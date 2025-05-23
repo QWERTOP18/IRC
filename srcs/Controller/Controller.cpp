@@ -7,6 +7,7 @@ Controller::Controller(Model *model) : m_Model(model)
     m_ClientCommand["NICK"] = new Nick(model);
     m_ClientCommand["USER"] = new User(model);
     m_ClientCommand["JOKE"] = new JokeBot();
+    m_ClientCommand["PING"] = new Ping(model);
 
     m_Command["JOIN"] = new Join(model);
     m_Command["WHO"] = new Who(model);
@@ -50,36 +51,53 @@ void Controller::removeClient(int fd)
     m_Model->removeClient(fd);
 }
 
+std::string strtrim(std::string &str)
+{
+    str.erase(0, str.find_first_not_of(" \t\n\r\f\v"));
+    str.erase(str.find_last_not_of(" \t\n\r\f\v") + 1);
+    return str;
+}
+
 void Controller::handleRequest(int t_fd)
 {
-    DEBUG_FUNC();
-    std::string line = readRequest(t_fd);
-    if (line.empty())
+    std::string buffer = readRequest(t_fd);
+    if (buffer.empty())
         return;
-    ACommandBase *cmdBase = getCmdBase(line);
-    if (cmdBase == NULL)
-    {
-        LOG("Command not found: " + line);
-        return;
-    }
 
-    if (AClientCommand *cmd = dynamic_cast<AClientCommand *>(cmdBase))
+    std::stringstream ss(buffer);
+    std::string line;
+    while (std::getline(ss, line))
     {
-        ResponseBody response = cmd->start(t_fd, line);
-        sendResponse(t_fd, response);
-        return;
+        DEBUG_FUNC();
+        line = strtrim(line);
+        ACommandBase *cmdBase = getCmdBase(line);
+        if (cmdBase == NULL)
+        {
+            LOG("Command not found: " + line);
+            printf("@@@@@@\n");
+            sendResponse(t_fd, ResponseBody(421, "localhost", "Unknown command"));
+            continue;
+        }
+
+        if (AClientCommand *cmd = dynamic_cast<AClientCommand *>(cmdBase))
+        {
+            ResponseBody response = cmd->start(t_fd, line);
+            sendResponse(t_fd, response);
+            continue;
+        }
+        if (ACommand *cmd = dynamic_cast<ACommand *>(cmdBase))
+        {
+            ResponseBody response = cmd->start(t_fd, line);
+            sendResponse(t_fd, response);
+            continue;
+        }
+        if (AChannelCommand *cmd = dynamic_cast<AChannelCommand *>(cmdBase))
+        {
+            ResponseBody response = cmd->start(t_fd, line);
+            sendResponse(t_fd, response);
+            continue;
+        }
+        LOG("Command not found: " + line);
+        sendResponse(t_fd, ResponseBody(421, "localhost", "Unknown command"));
     }
-    if (ACommand *cmd = dynamic_cast<ACommand *>(cmdBase))
-    {
-        ResponseBody response = cmd->start(t_fd, line);
-        sendResponse(t_fd, response);
-        return;
-    }
-    if (AChannelCommand *cmd = dynamic_cast<AChannelCommand *>(cmdBase))
-    {
-        ResponseBody response = cmd->start(t_fd, line);
-        sendResponse(t_fd, response);
-        return;
-    }
-    LOG("Command not found: " + line);
 }

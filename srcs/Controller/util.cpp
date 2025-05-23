@@ -38,13 +38,14 @@ std::string Controller::readRequest(int fd)
     buf[bytesRead] = '\0';
     buffer += buf;
 
-    if (buffer.find("\n") == std::string::npos)
-        return "";
-    DEBUG_LOG("Received: " + buffer);
+    return buffer;
+    // if (buffer.find("\n") == std::string::npos)
+    //     return "";
+    // DEBUG_LOG("Received: " + buffer);
 
-    std::string line = buffer.substr(0, buffer.find("\n"));
-    buffer.erase(0, buffer.find("\n") + 1);
-    return line;
+    // std::string line = buffer.substr(0, buffer.find("\n"));
+    // buffer.erase(0, buffer.find("\n") + 1);
+    // return line;
 }
 
 void Controller::sendResponse(int fd, const ResponseBody &response)
@@ -52,6 +53,10 @@ void Controller::sendResponse(int fd, const ResponseBody &response)
     DEBUG_FUNC();
     if (response.m_status == NO_REPLY)
         return;
-    std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
+    // std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
+    std::string message =
+        ":" + m_Model->getServerName() + " " + std::to_string(response.m_status) + " " + response.m_content + "\r\n";
+
+    DEBUG_LOG("Sending: " + message);
     send(fd, message.c_str(), message.size(), 0);
 }

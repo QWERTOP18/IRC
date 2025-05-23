@@ -25,6 +25,11 @@ Model::~Model()
     m_Hub.clear();
 }
 
+const std::string Model::getServerName() const
+{
+    return "localhost";
+}
+
 std::vector<pollfd> Model::getPollfds() const
 {
     DEBUG_FUNC();

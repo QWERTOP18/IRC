@@ -16,6 +16,7 @@ private:
 
     std::map<ID, ClientChannelHub *> m_Hub;
     std::string m_password;
+    std::string m_serverName;
 
 public:
     Model();
@@ -23,6 +24,7 @@ public:
 
     // Getters
     const std::string getModelInfo() const;
+    const std::string getServerName() const;
 
     std::vector<pollfd> getPollfds() const;
     // std::map<ID, Client *> getClients() const { return m_Client; }
