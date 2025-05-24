@@ -76,7 +76,7 @@ void Controller::sendResponse(int fd, const ResponseBody &response)
     else
         message = ":" + m_Model->getClient(fd)->getClientInfo() + " " + zero_pad3(response.m_status) + " :" + response.m_content + "\r\n";
 
-    std::cout << "response: " << response.m_status << " " << response.m_content << std::endl;
+    // std::cout << "response: " << response.m_status << " " << response.m_content << std::endl;
     LOG("Sending: " + message);
     send(fd, message.c_str(), message.length(), 0);
 }
