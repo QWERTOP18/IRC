@@ -69,7 +69,7 @@ void Controller::handleRequest(int t_fd)
     while (std::getline(ss, line))
     {
         DEBUG_FUNC();
-        std::cout << "line: " << line << std::endl;
+        // std::cout << "line: " << line << std::endl;
         line = strtrim(line);
         ACommandBase *cmdBase = getCmdBase(line);
         if (cmdBase == NULL)

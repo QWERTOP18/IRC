@@ -60,7 +60,7 @@ std::string Controller::readRequest(int fd)
 
         message.append(buffer);
     }
-    std::cout << "message: " << message << std::endl;
+    // std::cout << "message: " << message << std::endl;
     return message;
 }
 
