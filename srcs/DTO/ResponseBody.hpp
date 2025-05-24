@@ -7,5 +7,5 @@ private:
 public:
     std::string m_hostname;
 
-    ResponseBody(int t_status = 0, const std::string &t_command = "", const std::string &t_content = "");
+    ResponseBody(int t_status = 0, const std::string &t_content = "");
 };

@@ -38,7 +38,6 @@ ResponseBody PrivMsg::run(int t_fd, RequestBody t_request)
 {
     DEBUG_FUNC();
     ResponseBody response;
-    response.m_command = "PRIVMSG";
 
     if (!t_request.m_target_channel.empty())
     {

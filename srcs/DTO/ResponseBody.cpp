@@ -1,10 +1,9 @@
 #include "ResponseBody.hpp"
 
-ResponseBody::ResponseBody(int t_status, const std::string &t_command, const std::string &t_content)
+ResponseBody::ResponseBody(int t_status, const std::string &t_content)
     : IBody()
 {
     m_status = t_status;
-    m_command = t_command;
     m_content = t_content;
     m_hostname = "localhost";
 }

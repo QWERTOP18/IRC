@@ -75,7 +75,7 @@ void Controller::handleRequest(int t_fd)
         if (cmdBase == NULL)
         {
             LOG("Command not found: " + line);
-            sendResponse(t_fd, ResponseBody(421, line, "Unknown command"));
+            sendResponse(t_fd, ResponseBody(421, "Unknown command: " + line));
             continue;
         }
 
@@ -98,6 +98,6 @@ void Controller::handleRequest(int t_fd)
             continue;
         }
         LOG("Command not found: " + line);
-        sendResponse(t_fd, ResponseBody(421, line, "Unknown command"));
+        sendResponse(t_fd, ResponseBody(421, "Unknown command: " + line));
     }
 }

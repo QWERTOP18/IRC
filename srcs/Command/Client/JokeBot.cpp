@@ -35,8 +35,7 @@ const std::string JokeBot::fetchJoke()
         "Why do programmers hate nature? It has too many bugs.",
         "There are only 10 types of people in the world: those who understand binary and those who don't.",
         "Debugging is like being the detective in a crime movie where you are also the murderer.",
-        "In order to understand recursion, one must first understand recursion."
-    };
+        "In order to understand recursion, one must first understand recursion."};
 
     static const int num_jokes = sizeof(jokes_array) / sizeof(jokes_array[0]);
     return jokes_array[rand() % num_jokes];

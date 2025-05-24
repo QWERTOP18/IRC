@@ -27,11 +27,11 @@ ResponseBody Nick::run(int t_fd, RequestBody t_request)
     }
     if (t_request.m_content.length() > 9)
     {
-        return ResponseBody(ERR_ERRONEUSNICKNAME, "Nick", "Nickname is too long");
+        return ResponseBody(ERR_ERRONEUSNICKNAME, "Nickname is too long");
     }
     if (m_Model->isNickNameInUse(t_request.m_content))
     {
-        return ResponseBody(ERR_NICKNAMEINUSE, "Nick", "Nickname is already in use");
+        return ResponseBody(ERR_NICKNAMEINUSE, "Nickname is already in use");
     }
 
     client->setNickname(t_request.m_content);
