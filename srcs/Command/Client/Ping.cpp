@@ -19,10 +19,10 @@ ResponseBody Ping::run(int t_fd, RequestBody t_request)
     Client *client = m_Model->getClient(t_fd);
     if (client == NULL)
     {
-        return ResponseBody(ERR_NOSUCHNICK, t_request.m_content, "No such nick");
+        return ResponseBody(ERR_NOSUCHNICK, "No such nick");
     }
 
-    return ResponseBody(RPL_NONE, "PONG", t_request.m_content);
+    return ResponseBody(RPL_NOUSERS, "PONG " + t_request.m_content);
 }
 
 RequestBody Ping::parse(const std::string &t_line)

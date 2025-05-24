@@ -51,7 +51,6 @@ ResponseBody Mode::run(int t_fd, RequestBody t_request)
 {
     DEBUG_FUNC();
     ResponseBody response;
-    response.m_command = "Mode";
 
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);
 
@@ -59,7 +58,7 @@ ResponseBody Mode::run(int t_fd, RequestBody t_request)
 
     if (m_Model->getRole(t_fd, ch->getId()) != ADMIN)
     {
-        return ResponseBody(ERR_CHANOPRIVSNEEDED, "Mode", "You are not a channel operator");
+        return ResponseBody(ERR_CHANOPRIVSNEEDED, "You are not a channel operator");
     }
 
     if (t_request.m_content[1] == 'i')

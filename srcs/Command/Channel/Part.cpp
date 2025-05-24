@@ -33,20 +33,15 @@ ResponseBody Part::run(int t_fd, RequestBody t_request)
 {
     DEBUG_FUNC();
     ResponseBody response;
-    response.m_command = "PART";
 
     Channel *ch = m_Model->getChannel(t_request.m_target_channel);
     if (ch == NULL)
     {
-        response.m_status = ERR_NOSUCHCHANNEL;
-        response.m_content = "No such channel";
-        return response;
+        return ResponseBody(ERR_NOSUCHCHANNEL, "No such channel");
     }
     if (!m_Model->isClientOnChannel(t_fd, ch->getId()))
     {
-        response.m_status = ERR_NOTONCHANNEL;
-        response.m_content = "You're not on that channel";
-        return response;
+        return ResponseBody(ERR_NOTONCHANNEL, "You're not on that channel");
     }
 
     this->broadcast(t_fd, ch->getId(), "user left");

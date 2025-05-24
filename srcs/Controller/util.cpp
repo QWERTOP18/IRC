@@ -60,22 +60,23 @@ std::string Controller::readRequest(int fd)
 
         message.append(buffer);
     }
-    std::cout << "message: " << message << std::endl;
+    // std::cout << "message: " << message << std::endl;
     return message;
 }
 
 void Controller::sendResponse(int fd, const ResponseBody &response)
 {
     DEBUG_FUNC();
+
     std::string message;
     if (response.m_status == NO_REPLY)
         return;
-    if (response.m_status == RPL_NONE)
-        message = response.m_content + "\r\n";
-    // std::string message = response.m_command + " " + to_string(response.m_status) + " " + response.m_content + "\r\n";
+    if (response.m_status == RPL_NOUSERS)
+        message = ":" + m_Model->getClient(fd)->getClientInfo() + " :" + response.m_content + "\r\n";
     else
         message = ":" + m_Model->getClient(fd)->getClientInfo() + " " + zero_pad3(response.m_status) + " :" + response.m_content + "\r\n";
 
-    DEBUG_LOG("Sending: " + message);
-    send(fd, message.c_str(), message.size(), 0);
+    // std::cout << "response: " << response.m_status << " " << response.m_content << std::endl;
+    LOG("Sending: " + message);
+    send(fd, message.c_str(), message.length(), 0);
 }

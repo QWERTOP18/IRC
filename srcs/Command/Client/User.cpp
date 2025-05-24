@@ -18,7 +18,7 @@ ResponseBody User::run(int t_fd, RequestBody t_request)
     Client *cl = m_Model->getClient(t_fd);
     if (cl->getStatus() < AUTHENTICATED_NICK3)
     {
-        return ResponseBody(ERR_NONICKNAMEGIVEN, "USER", "No NickName was given");
+        return ResponseBody(ERR_NONICKNAMEGIVEN, "No NickName was given");
     }
 
     cl->setUsername(t_request.m_content);
@@ -28,7 +28,7 @@ ResponseBody User::run(int t_fd, RequestBody t_request)
     cl->setStatus(REGISTERED);
 
     LOG("Client " + to_string(t_fd) + "  is now registered " + t_request.m_content);
-    return ResponseBody(RPL_WELCOME, "USER", cl->getClientInfo());
+    return ResponseBody(RPL_WELCOME, cl->getClientInfo());
 }
 
 RequestBody User::parse(const std::string &t_line)
